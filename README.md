@@ -1,2 +1,2 @@
 # infinity_tuitions
-Mathmatics
+Mathematics
