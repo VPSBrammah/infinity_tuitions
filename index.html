@@ -1,104 +1,223 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ta">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinity Tuitions - Math Solutions</title>
-    
-    <!-- Updated MathJax Configuration for perfect math rendering -->
+    <title>Infinity Tuitions - 10th Full Master Suite</title>
+    <!-- MathJax Configuration for perfect math formulas -->
     <script>
         window.MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
                 displayMath: [['$$', '$$'], ['\\[', '\\]']]
             },
-            svg: {
-                fontCache: 'global'
-            }
+            svg: { fontCache: 'global' }
         };
     </script>
     <script type="text/javascript" id="MathJax-script" async
         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
     </script>
-    
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
-        header { text-align: center; padding: 40px 0; background: #0056b3; color: white; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        header h1 { margin: 0; font-size: 2.5rem; letter-spacing: 1px; font-weight: bold; }
-        header p { margin: 10px 0 0 0; font-style: italic; opacity: 0.9; }
-        .class-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
-        .class-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; width: 220px; transition: transform 0.2s; }
-        .class-card:hover { transform: translateY(-5px); }
-        .btn { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-size: 0.85rem; display: inline-block; font-weight: bold; }
-        .section-title { margin-top: 40px; border-bottom: 2px solid #0056b3; padding-bottom: 10px; color: #111; }
-        .solution-card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px; border-left: 5px solid #0056b3; }
-        .chapter-tag { background: #e6f0fa; color: #0056b3; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; display: inline-block; margin-bottom: 15px; }
+        :root {
+            --bg: #f8f9fa;
+            --surface: #ffffff;
+            --primary: #0056b3;
+            --primary-light: #e8f0fe;
+            --accent: #2e86c1;
+            --text: #2c3e50;
+            --text-muted: #7f8c8d;
+            --success: #27ae60;
+            --success-light: #d4edda;
+            --success-text: #155724;
+            --danger: #e74c3c;
+            --danger-light: #f8d7da;
+            --danger-text: #721c24;
+            --border: #ddd;
+        }
+
+        [data-theme="Dark"] {
+            --bg: #121212;
+            --surface: #1e1e1e;
+            --primary: #0f2d42;
+            --primary-light: #1b365d;
+            --accent: #3498db;
+            --text: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --success: #2ecc71;
+            --success-light: #1b3c26;
+            --success-text: #2ecc71;
+            --danger: #e74c3c;
+            --danger-light: #3d1c1c;
+            --danger-text: #e74c3c;
+            --border: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 40px;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 40px 15px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 0 0 8px 8px;
+        }
+
+        .logo-placeholder {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .theme-toggle-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 8px 14px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .theme-toggle-btn:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 25px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        /* Classes Cards Dashboard Layout */
+        .class-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; margin-top: -20px; }
+        .class-card { background: var(--surface); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; width: 220px; border-top: 4px solid var(--primary); }
+        .btn-dash { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-size: 0.85rem; display: inline-block; font-weight: bold; background: #0056b3; }
+
+        /* Quiz & Solutions Interface */
+        .section-title { margin-top: 40px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; color: var(--text); font-size: 1.5rem; }
+        .solution-card { background: var(--surface); padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px; border-left: 5px solid var(--primary); margin-top: 20px; }
+        .chapter-tag { background: var(--primary-light); color: #0056b3; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; display: inline-block; margin-bottom: 15px; }
         .step { margin-bottom: 20px; }
         .step-title { font-weight: bold; color: #0056b3; display: block; margin-bottom: 5px; }
-        .tip-box { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 4px; margin-top: 15px; font-size: 0.95rem; }
+        .tip-box { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 4px; margin-top: 15px; font-size: 0.95rem; color: #333; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>INFINITY TUITIONS</h1>
-        <p>Mastering Mathematics, Step-by-Step</p>
+        <button class="theme-toggle-btn" id="theme-toggle" onclick="toggleThemeMode()">🌓 பகல்</button>
+        <div class="logo-placeholder">INFINITY TUITIONS</div>
+        <h1>Mastering Mathematics, Step-by-Step</h1>
     </header>
 
-    <div class="class-container">
-        <div class="class-card" style="border-top: 4px solid #0056b3;">
-            <h3 style="margin: 0 0 10px 0; color: #0056b3;">Class 10</h3>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">CBSE & State Board</p>
-            <a href="#class10" class="btn" style="background: #0056b3;">View Solutions</a>
+    <div class="container">
+        <!-- 1. NAVIGATION DASHBOARD SECTION -->
+        <div class="class-container">
+            <!-- Class 10 Card -->
+            <div class="class-card">
+                <h3 style="margin: 0 0 10px 0; color: #0056b3;">Class 10</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">CBSE & State Board</p>
+                <a href="#class10" class="btn-dash">View Solutions</a>
+            </div>
+
+            <!-- Class 11 Card -->
+            <div class="class-card" style="border-top: 4px solid #27ae60;">
+                <h3 style="margin: 0 0 10px 0; color: #27ae60;">Class 11</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Core Mathematics</p>
+                <a href="#class11" class="btn-dash" style="background: #27ae60;">View Solutions</a>
+            </div>
+
+            <!-- Class 12 Card -->
+            <div class="class-card" style="border-top: 4px solid #e74c3c;">
+                <h3 style="margin: 0 0 10px 0; color: #e74c3c;">Class 12</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Public Exam Prep</p>
+                <a href="#class12" class="btn-dash" style="background: #e74c3c;">View Solutions</a>
+            </div>
         </div>
-        <div class="class-card" style="border-top: 4px solid #28a745;">
-            <h3 style="margin: 0 0 10px 0; color: #28a745;">Class 11</h3>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Core Mathematics</p>
-            <a href="#class11" class="btn" style="background: #28a745;">View Solutions</a>
+
+        <!-- 2. SOLUTIONS CONTENT SECTION -->
+        <h2 id="class10" class="section-title">Class 10 Solutions</h2>
+        
+        <div class="solution-card">
+            <span class="chapter-tag">Quadratic Equations</span>
+            <h3>Problem: Solve $x^2 - 5x + 6 = 0$ by Factorization</h3>
+            
+            <div class="step">
+                <span class="step-title">Step 1: Split the Middle Term</span>
+                <p>Find two numbers that multiply to $6$ and add up to $-5$. Those numbers are $-2$ and $-3$.</p>
+                <p>$$x^2 - 2x - 3x + 6 = 0$$</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-title">Step 2: Take Out Common Factors</span>
+                <p>Group the terms and factor them out:</p>
+                <p>$$x(x - 2) - 3(x - 2) = 0$$</p>
+                <p>$$(x - 2)(x - 3) = 0$$</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-title">Step 3: Find the Roots</span>
+                <p>Set each factor to $0$:</p>
+                <p>$$x - 2 = 0 \implies x = 2$$</p>
+                <p>$$x - 3 = 0 \implies x = 3$$</p>
+            </div>
+            
+            <div class="tip-box">
+                <strong>💡 Master Guide Note:</strong> Always verify your signs. A common trap is writing $(x+2)(x+3)$, which results in $+5x$ instead of $-5x$.
+            </div>
         </div>
-        <div class="class-card" style="border-top: 4px solid #dc3545;">
-            <h3 style="margin: 0 0 10px 0; color: #dc3545;">Class 12</h3>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Public Exam Prep</p>
-            <a href="#class12" class="btn" style="background: #dc3545;">View Solutions</a>
-        </div>
+
+        <h2 id="class11" class="section-title">Class 11 Solutions</h2>
+        <p style="color: var(--text-muted); padding: 20px; font-style: italic;">Solutions coming soon!</p>
+
+        <h2 id="class12" class="section-title">Class 12 Solutions</h2>
+        <p style="color: var(--text-muted); padding: 20px; font-style: italic;">Solutions coming soon!</p>
     </div>
 
-    <h2 id="class10" class="section-title">Class 10 Solutions</h2>
-    
-    <div class="solution-card">
-        <span class="chapter-tag">Quadratic Equations</span>
-        <h3>Problem: Solve $x^2 - 5x + 6 = 0$ by Factorization</h3>
-        
-        <div class="step">
-            <span class="step-title">Step 1: Split the Middle Term</span>
-            <p>Find two numbers that multiply to $6$ and add up to $-5$. Those numbers are $-2$ and $-3$.</p>
-            <p>$$x^2 - 2x - 3x + 6 = 0$$</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-title">Step 2: Take Out Common Factors</span>
-            <p>Group the terms and factor them out:</p>
-            <p>$$x(x - 2) - 3(x - 2) = 0$$</p>
-            <p>$$(x - 2)(x - 3) = 0$$</p>
-        </div>
-        
-        <div class="step">
-            <span class="step-title">Step 3: Find the Roots</span>
-            <p>Set each factor to $0$:</p>
-            <p>$$x - 2 = 0 \implies x = 2$$</p>
-            <p>$$x - 3 = 0 \implies x = 3$$</p>
-        </div>
-        
-        <div class="tip-box">
-            <strong>💡 Master Guide Note:</strong> Always verify your signs. A common trap is writing $(x+2)(x+3)$, which results in $+5x$ instead of $-5x$.
-        </div>
-    </div>
-
-    <h2 id="class11" class="section-title">Class 11 Solutions</h2>
-    <p style="color: #666; padding: 20px; font-style: italic;">Solutions coming soon!</p>
-
-    <h2 id="class12" class="section-title">Class 12 Solutions</h2>
-    <p style="color: #666; padding: 20px; font-style: italic;">Solutions coming soon!</p>
-
+    <script>
+        function toggleThemeMode() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            let newTheme = "Light";
+            let btnText = "🌓 பகல்";
+            
+            if (currentTheme !== "Dark") {
+                newTheme = "Dark";
+                btnText = "🌓 இரவு";
+            }
+            
+            document.documentElement.setAttribute("data-theme", newTheme);
+            document.getElementById("theme-toggle").innerText = btnText;
+        }
+    </script>
 </body>
 </html>
