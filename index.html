@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinity Tuitions - 10th Full Master Suite</title>
-    <!-- MathJax Configuration for perfect math formulas -->
     <script>
         window.MathJax = {
             tex: {
@@ -76,7 +75,6 @@
             padding: 40px 15px;
             position: relative;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-radius: 0 0 8px 8px;
         }
 
         .logo-placeholder {
@@ -106,9 +104,6 @@
             cursor: pointer;
             font-size: 0.9rem;
         }
-        .theme-toggle-btn:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-        }
 
         .container {
             max-width: 900px;
@@ -118,82 +113,68 @@
             flex: 1;
         }
 
-        /* Classes Cards Dashboard Layout */
-        .class-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; margin-top: -20px; }
+        .class-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
         .class-card { background: var(--surface); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; width: 220px; border-top: 4px solid var(--primary); }
         .btn-dash { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-size: 0.85rem; display: inline-block; font-weight: bold; background: #0056b3; }
 
-        /* Quiz & Solutions Interface */
         .section-title { margin-top: 40px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; color: var(--text); font-size: 1.5rem; }
         .solution-card { background: var(--surface); padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px; border-left: 5px solid var(--primary); margin-top: 20px; }
-        .chapter-tag { background: var(--primary-light); color: #0056b3; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; display: inline-block; margin-bottom: 15px; }
-        .step { margin-bottom: 20px; }
-        .step-title { font-weight: bold; color: #0056b3; display: block; margin-bottom: 5px; }
-        .tip-box { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 4px; margin-top: 15px; font-size: 0.95rem; color: #333; }
+        
+        /* Interactive Quiz Blocks */
+        .option-node {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            background-color: var(--surface);
+            font-size: 1rem;
+        }
+        .option-node:hover { background-color: var(--primary-light); }
+        .option-node input { margin-right: 15px; width: 18px; height: 18px; }
+        .option-node.success-glow { background-color: var(--success-light) !important; border-color: var(--success) !important; color: var(--success-text) !important; font-weight: bold; }
+        .option-node.danger-glow { background-color: var(--danger-light) !important; border-color: var(--danger) !important; color: var(--danger-text) !important; }
+        
+        .progress-container { width: 100%; background-color: var(--border); height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
+        .progress-inner { width: 0%; height: 100%; background-color: var(--accent); transition: width 0.3s; }
+        
+        .report-textarea { width: 100%; height: 250px; font-family: monospace; font-size: 0.9rem; padding: 15px; border: 1px solid var(--border); border-radius: 6px; background-color: var(--surface); color: var(--text); resize: none; margin: 15px 0; }
     </style>
 </head>
 <body>
 
     <header>
-        <button class="theme-toggle-btn" id="theme-toggle" onclick="toggleThemeMode()">🌓 பகல்</button>
+        <button class="theme-toggle-btn" id="theme-toggle" onclick="toggleThemeMode()">¼ பகல்</button>
         <div class="logo-placeholder">INFINITY TUITIONS</div>
         <h1>Mastering Mathematics, Step-by-Step</h1>
     </header>
 
     <div class="container">
-        <!-- 1. NAVIGATION DASHBOARD SECTION -->
         <div class="class-container">
-            <!-- Class 10 Card -->
             <div class="class-card">
                 <h3 style="margin: 0 0 10px 0; color: #0056b3;">Class 10</h3>
                 <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">CBSE & State Board</p>
-                <a href="#class10" class="btn-dash">View Solutions</a>
+                <a href="#class10" class="btn-dash">View Suite</a>
             </div>
-
-            <!-- Class 11 Card -->
             <div class="class-card" style="border-top: 4px solid #27ae60;">
                 <h3 style="margin: 0 0 10px 0; color: #27ae60;">Class 11</h3>
                 <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Core Mathematics</p>
-                <a href="#class11" class="btn-dash" style="background: #27ae60;">View Solutions</a>
+                <a href="#class11" class="btn-dash" style="background: #27ae60;">View Suite</a>
             </div>
-
-            <!-- Class 12 Card -->
             <div class="class-card" style="border-top: 4px solid #e74c3c;">
                 <h3 style="margin: 0 0 10px 0; color: #e74c3c;">Class 12</h3>
                 <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Public Exam Prep</p>
-                <a href="#class12" class="btn-dash" style="background: #e74c3c;">View Solutions</a>
+                <a href="#class12" class="btn-dash" style="background: #e74c3c;">View Suite</a>
             </div>
         </div>
 
-        <!-- 2. SOLUTIONS CONTENT SECTION -->
-        <h2 id="class10" class="section-title">Class 10 Solutions</h2>
+        <h2 id="class10" class="section-title">Class 10 Interactive Exam Workspace</h2>
         
         <div class="solution-card">
-            <span class="chapter-tag">Quadratic Equations</span>
-            <h3>Problem: Solve $x^2 - 5x + 6 = 0$ by Factorization</h3>
-            
-            <div class="step">
-                <span class="step-title">Step 1: Split the Middle Term</span>
-                <p>Find two numbers that multiply to $6$ and add up to $-5$. Those numbers are $-2$ and $-3$.</p>
-                <p>$$x^2 - 2x - 3x + 6 = 0$$</p>
-            </div>
-            
-            <div class="step">
-                <span class="step-title">Step 2: Take Out Common Factors</span>
-                <p>Group the terms and factor them out:</p>
-                <p>$$x(x - 2) - 3(x - 2) = 0$$</p>
-                <p>$$(x - 2)(x - 3) = 0$$</p>
-            </div>
-            
-            <div class="step">
-                <span class="step-title">Step 3: Find the Roots</span>
-                <p>Set each factor to $0$:</p>
-                <p>$$x - 2 = 0 \implies x = 2$$</p>
-                <p>$$x - 3 = 0 \implies x = 3$$</p>
-            </div>
-            
-            <div class="tip-box">
-                <strong>💡 Master Guide Note:</strong> Always verify your signs. A common trap is writing $(x+2)(x+3)$, which results in $+5x$ instead of $-5x$.
+            <div id="quiz-workspace">
+                <p style="text-align: center; color: var(--text-muted);">ஒன்றுகூடுதல் கணினி மென்பொருள் ஏற்றப்படுகிறது...</p>
             </div>
         </div>
 
@@ -205,19 +186,9 @@
     </div>
 
     <script>
-        function toggleThemeMode() {
-            const currentTheme = document.documentElement.getAttribute("data-theme");
-            let newTheme = "Light";
-            let btnText = "🌓 பகல்";
-            
-            if (currentTheme !== "Dark") {
-                newTheme = "Dark";
-                btnText = "🌓 இரவு";
-            }
-            
-            document.documentElement.setAttribute("data-theme", newTheme);
-            document.getElementById("theme-toggle").innerText = btnText;
-        }
+        function toggleThemeMode(){const c=document.documentElement.getAttribute("data-theme");let n="Light",t="¼ பகல்";"Dark"!==c&&(n="Dark",t="¼ இரவு");document.documentElement.setAttribute("data-theme",n);document.getElementById("theme-toggle").innerText=t}
     </script>
+    
+    <script src="quiz-data.js"></script>
 </body>
 </html>
