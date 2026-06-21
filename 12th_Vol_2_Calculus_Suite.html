@@ -145,113 +145,219 @@
         
         // Full Dataset Mapping Extracted directly from Python Source Engine Profile Arrays
         const ALL_QUESTIONS = [
-            // === EXERCISE 7.10 ===
-            { exercise: "Exercise 7.10", question: "The volume of a sphere is increasing in volume at the rate of 3π cm³/sec. The rate of change of its radius when radius is ½ cm is", options: ["3 cm/s", "2 cm/s", "1 cm/s", "3/2 cm/s"], correct: "3 cm/s" },
-            { exercise: "Exercise 7.10", question: "A balloon rises straight up at 10 m/s. An observer is 40 m away from the spot where the balloon left the ground. The rate of change of the balloon's angle of elevation in radian per second when the balloon is 30 metres above the ground is", options: ["3/25 radians/sec", "4/25 radians/sec", "1/5 radians/sec", "1/3 radians/sec"], correct: "4/25 radians/sec" },
-            { exercise: "Exercise 7.10", question: "The position of a particle moving along a horizontal line at any time t is given by s(t) = 3t² - 2t - 8. The time at which the particle is at rest is", options: ["t = 0", "t = 1/3", "t = 1", "t = 3"], correct: "t = 1/3" },
-            { exercise: "Exercise 7.10", question: "A stone is thrown up vertically. The height it reaches at time t seconds is given by x = 80t - 16t². The stone reaches the maximum height in time:", options: ["2 seconds", "2.5 seconds", "3 seconds", "3.5 seconds"], correct: "2.5 seconds" },
-            { exercise: "Exercise 7.10", question: "The point on the curve 6y = x³ + 2 at which y-coordinate changes 8 times as fast as x-coordinate is", options: ["(4, 11)", "(4, -11)", "(-4, 11)", "(-4, -11)"], correct: "(4, 11)" },
-            { exercise: "Exercise 7.10", question: "The abscissa of the point on the curve f(x) = √(8 - 2x) at which the slope of the tangent is -0.25 is", options: ["-8", "-4", "-2", "0"], correct: "-4" },
-            { exercise: "Exercise 7.10", question: "The slope of the line normal to the curve f(x) = 2 cos(4x) at x = π/12 is", options: ["-4√3", "-4", "√3/12", "4√3"], correct: "√3/12" },
-            { exercise: "Exercise 7.10", question: "The tangent to the curve y² - xy + 9 = 0 is vertical when", options: ["y = 0", "y = ±√3", "y = 1/2", "y = ±3"], correct: "y = ±3" },
-            { exercise: "Exercise 7.10", question: "Angle between y² = x and x² = y at the origin is", options: ["tan⁻¹(3/4)", "tan⁻¹(4/3)", "π/2", "π/4"], correct: "π/2" },
-            { exercise: "Exercise 7.10", question: "The value of the limit limit limₓ→₀ (cot x - 1/x) is", options: ["0", "1", "2", "infinity"], correct: "0" },
-            { exercise: "Exercise 7.10", question: "The function sin⁴(x) + cos⁴(x) is increasing in the interval", options: ["[5π/8, 3π/4]", "[π/2, 5π/8]", "[π/4, π/2]", "[0, π/4]"], correct: "[π/4, π/2]" },
-            { exercise: "Exercise 7.10", question: "The number given by the Rolle's theorem for the function x³ - 3t², x ∈ [0,3] is", options: ["1", "√2", "3/2", "2"], correct: "2" },
-            { exercise: "Exercise 7.10", question: "The number given by the Mean value theorem for the function 1/x, x ∈ [1,9] is", options: ["2", "2.5", "3", "3.5"], correct: "3" },
-            { exercise: "Exercise 7.10", question: "The minimum value of the function |3 - x| + 9 is", options: ["0", "3", "6", "9"], correct: "9" },
-            { exercise: "Exercise 7.10", question: "The maximum slope of the tangent to the curve y = eˣ sin x, x ∈ [0, 2π] is at", options: ["x = π/4", "x = π/2", "x = π", "x = 3π/2"], correct: "x = π/2" },
-            { exercise: "Exercise 7.10", question: "The maximum value of the function x² e⁻²ˣ, x > 0 is", options: ["1/e", "1/(2e)", "1/e²", "4/e⁴"], correct: "1/e²" },
-            { exercise: "Exercise 7.10", question: "One of the closest points on the curve x² - y² = 4 to the point (6,0) is", options: ["(2,0)", "(√5,1)", "(3, √5)", "(√13, -√3)"], correct: "(3, √5)" },
-            { exercise: "Exercise 7.10", question: "The maximum value of the product of two positive numbers, when their sum of the squares is 200, is", options: ["100", "25√7", "28", "24√14"], correct: "100" },
-            { exercise: "Exercise 7.10", question: "The curve y = ax⁴ + bx² with ab > 0", options: ["has no horizontal tangent", "is concave up", "is concave down", "has no points of inflection"], correct: "has no points of inflection" },
-            { exercise: "Exercise 7.10", question: "The point of inflection of the curve y = (x - 1)³ is", options: ["(0,0)", "(0,1)", "(1,0)", "(1,1)"], correct: "(1,0)" },
+         
+    # === EXERCISE 7.10: APPLICATIONS OF DIFFERENTIAL CALCULUS ===
+    {
+        "exercise": "Exercise 7.10", "book_num": 1,
+        "question": "The volume of a sphere is increasing in volume at the rate of 3π cm³/sec. The rate of change of its radius when radius is ½ cm is",
+        "options": ["3 cm/s", "2 cm/s", "1 cm/s", "3/2 cm/s"], "correct": "3 cm/s"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 2,
+        "question": "A balloon rises straight up at 10 m/s. An observer is 40 m away from the spot where the balloon left the ground. The rate of change of the balloon's angle of elevation in radian per second when the balloon is 30 metres above the ground is",
+        "options": ["3/25 radians/sec", "4/25 radians/sec", "1/5 radians/sec", "1/3 radians/sec"], "correct": "4/25 radians/sec"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 3,
+        "question": "The position of a particle moving along a horizontal line at any time t is given by s(t) = 3t² - 2t - 8. The time at which the particle is at rest is",
+        "options": ["t = 0", "t = 1/3", "t = 1", "t = 3"], "correct": "t = 1/3"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 4,
+        "question": "A stone is thrown up vertically. The height it reaches at time t seconds is given by x = 80t - 16t². The stone reaches the maximum height in time:",
+        "options": ["2 seconds", "2.5 seconds", "3 seconds", "3.5 seconds"], "correct": "2.5 seconds"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 5,
+        "question": "The point on the curve 6y = x³ + 2 at which y-coordinate changes 8 times as fast as x-coordinate is",
+        "options": ["(4, 11)", "(4, -11)", "(-4, 11)", "(-4, -11)"], "correct": "(4, 11)"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 6,
+        "question": "The abscissa of the point on the curve f(x) = √(8 - 2x) at which the slope of the tangent is -0.25 is",
+        "options": ["-8", "-4", "-2", "0"], "correct": "-4"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 7,
+        "question": "The slope of the line normal to the curve f(x) = 2 cos(4x) at x = π/12 is",
+        "options": ["-4√3", "-4", "√3/12", "4√3"], "correct": "√3/12"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 8,
+        "question": "The tangent to the curve y² - xy + 9 = 0 is vertical when",
+        "options": ["y = 0", "y = ±√3", "y = 1/2", "y = ±3"], "correct": "y = ±3"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 9,
+        "question": "Angle between y² = x and x² = y at the origin is",
+        "options": ["tan⁻¹(3/4)", "tan⁻¹(4/3)", "π/2", "π/4"], "correct": "π/2"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 10,
+        "question": "The value of the limit limit limₓ→₀ (cot x - 1/x) is",
+        "options": ["0", "1", "2", "infinity"], "correct": "0"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 11,
+        "question": "The function sin⁴(x) + cos⁴(x) is increasing in the interval",
+        "options": ["[5π/8, 3π/4]", "[π/2, 5π/8]", "[π/4, π/2]", "[0, π/4]"], "correct": "[π/4, π/2]"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 12,
+        "question": "The number given by the Rolle's theorem for the function x³ - 3t², x ∈ [0,3] is",
+        "options": ["1", "√2", "3/2", "2"], "correct": "2"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 13,
+        "question": "The number given by the Mean value theorem for the function 1/x, x ∈ [1,9] is",
+        "options": ["2", "2.5", "3", "3.5"], "correct": "3"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 14,
+        "question": "The minimum value of the function |3 - x| + 9 is",
+        "options": ["0", "3", "6", "9"], "correct": "9"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 15,
+        "question": "The maximum slope of the tangent to the curve y = eˣ sin x, x ∈ [0, 2π] is at",
+        "options": ["x = π/4", "x = π/2", "x = π", "x = 3π/2"], "correct": "x = π/2"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 16,
+        "question": "The maximum value of the function x² e⁻²ˣ, x > 0 is",
+        "options": ["1/e", "1/(2e)", "1/e²", "4/e⁴"], "correct": "1/e²"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 17,
+        "question": "One of the closest points on the curve x² - y² = 4 to the point (6,0) is",
+        "options": ["(2,0)", "(√5,1)", "(3, √5)", "(√13, -√3)"], "correct": "(3, √5)"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 18,
+        "question": "The maximum value of the product of two positive numbers, when their sum of the squares is 200, is",
+        "options": ["100", "25√7", "28", "24√14"], "correct": "100"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 19,
+        "question": "The curve y = ax⁴ + bx² with ab > 0",
+        "options": ["has no horizontal tangent", "is concave up", "is concave down", "has no points of inflection"], "correct": "has no points of inflection"
+    },
+    {
+        "exercise": "Exercise 7.10", "book_num": 20,
+        "question": "The point of inflection of the curve y = (x - 1)³ is",
+        "options": ["(0,0)", "(0,1)", "(1,0)", "(1,1)"], "correct": "(1,0)"
+    },
 
-            // === EXERCISE 8.8 ===
-            { exercise: "Exercise 8.8", question: "A circular template has a radius of 10 cm. The measurement of radius has an approximate error of 0.02 cm. Then the percentage error in calculating area of this template is", options: ["0.2%", "0.4%", "0.04%", "0.08%"], correct: "0.4%" },
-            { exercise: "Exercise 8.8", question: "The percentage error of fifth root of 31 is approximately how many times the percentage error in 31?", options: ["1/31", "1/5", "5", "31"], correct: "1/5" },
-            { exercise: "Exercise 8.8", question: "If u(x,y) = e^(x²+y²) then ∂u/∂x is equal to", options: ["e^(x²+y²)", "2xu", "x² u", "y² u"], correct: "2xu" },
-            { exercise: "Exercise 8.8", question: "If v(x,y) = log(eˣ + eʸ) then ∂v/∂x + ∂v/∂y is equal to", options: ["eˣ + eʸ", "1/(eˣ + eʸ)", "2", "1"], correct: "1" },
-            { exercise: "Exercise 8.8", question: "If w(x,y) = xʸ, x > 0, then ∂w/∂x is equal to", options: ["xʸ log x", "y log x", "y x^(y-1)", "x log y"], correct: "y x^(y-1)" },
-            { exercise: "Exercise 8.8", question: "If f(x,y) = e^(xy), then ∂²f/∂x∂y is equal to", options: ["xy e^(xy)", "(1+xy)e^(xy)", "(1+y)e^(xy)", "(1+x)e^(xy)"], correct: "(1+xy)e^(xy)" },
-            { exercise: "Exercise 8.8", question: "If we measure the side of a cube to be 4 cm with an error of 0.1 cm, then the error in our calculation of the volume is", options: ["0.4 cu.cm", "0.45 cu.cm", "2 cu.cm", "4.8 cu.cm"], correct: "4.8 cu.cm" },
-            { exercise: "Exercise 8.8", question: "The change in the surface area S = 6x² of a cube when the edge length varies from x₀ to x₀ + dx is", options: ["12x₀ + dx", "12x₀ dx", "6x₀ dx", "6x₀ + dx"], correct: "12x₀ dx" },
-            { exercise: "Exercise 8.8", question: "The approximate change in the volume V of a cube of side x metres caused by increasing the side by 1% is", options: ["0.3x dx m³", "0.03 x m³", "0.03 x² m³", "0.03 x³ m³"], correct: "0.03 x³ m³" },
-            { exercise: "Exercise 8.8", question: "If g(x,y) = 3x² - 5y + 2y², x(t) = eᵗ and y(t) = cos t, then dg/dt is equal to", options: ["6e^(2t) + 5 sin t - 4 cos t sin t", "6e^(2t) - 5 sin t + 4 cos t sin t", "3e^(2t) + 5 sin t + 4 cos t sin t", "3e^(2t) - 5 sin t + 4 cos t sin t"], correct: "6e^(2t) + 5 sin t + 4 cos t sin t" },
-            { exercise: "Exercise 8.8", question: "If f(x) = x / (x+1), then its differential is given by", options: ["-1/(x+1)² dx", "1/(x+1)² dx", "1/(x+1) dx", "-1/(x+1) dx"], correct: "1/(x+1)² dx" },
-            { exercise: "Exercise 8.8", question: "If u(x,y) = x² + 3xy + y - 2019 then ∂u/∂x evaluated at (4,-5) is equal to", options: ["-4", "-3", "-7", "13"], correct: "-7" },
-            { exercise: "Exercise 8.8", question: "Linear approximation for g(x) = cos x at x = π/2 is", options: ["x + π/2", "-x + π/2", "x - π/2", "-x - π/2"], correct: "-x + π/2" },
-            { exercise: "Exercise 8.8", question: "If w(x,y,z) = x²(y-z) + y²(z-x) + z²(x-y) then ∂w/∂x + ∂w/∂y + ∂w/∂z is", options: ["xy + yz + zx", "x(y+z)", "y(z+x)", "0"], correct: "0" },
-            { exercise: "Exercise 8.8", question: "If f(x,y,z) = xy + yz + zx, then f_x - f_z is equal to", options: ["z - x", "y - z", "x - z", "y - x"], correct: "y - z" },
+    # === EXERCISE 8.8: DIFFERENTIALS AND PARTIAL DERIVATIVES ===
+    {"exercise": "Exercise 8.8", "book_num": 1, "question": "A circular template has a radius of 10 cm. The measurement of radius has an approximate error of 0.02 cm. Then the percentage error in calculating area of this template is", "options": ["0.2%", "0.4%", "0.04%", "0.08%"], "correct": "0.4%"},
+    {"exercise": "Exercise 8.8", "book_num": 2, "question": "The percentage error of fifth root of 31 is approximately how many times the percentage error in 31?", "options": ["1/31", "1/5", "5", "31"], "correct": "1/5"},
+    {"exercise": "Exercise 8.8", "book_num": 3, "question": "If u(x,y) = e^(x²+y²) then ∂u/∂x is equal to", "options": ["e^(x²+y²)", "2xu", "x² u", "y² u"], "correct": "2xu"},
+    {"exercise": "Exercise 8.8", "book_num": 4, "question": "If v(x,y) = log(eˣ + eʸ) then ∂v/∂x + ∂v/∂y is equal to", "options": ["eˣ + eʸ", "1/(eˣ + eʸ)", "2", "1"], "correct": "1"},
+    {"exercise": "Exercise 8.8", "book_num": 5, "question": "If w(x,y) = xʸ, x > 0, then ∂w/∂x is equal to", "options": ["xʸ log x", "y log x", "y x^(y-1)", "x log y"], "correct": "y x^(y-1)"},
+    {"exercise": "Exercise 8.8", "book_num": 6, "question": "If f(x,y) = e^(xy), then ∂²f/∂x∂y is equal to", "options": ["xy e^(xy)", "(1+xy)e^(xy)", "(1+y)e^(xy)", "(1+x)e^(xy)"], "correct": "(1+xy)e^(xy)"},
+    {"exercise": "Exercise 8.8", "book_num": 7, "question": "If we measure the side of a cube to be 4 cm with an error of 0.1 cm, then the error in our calculation of the volume is", "options": ["0.4 cu.cm", "0.45 cu.cm", "2 cu.cm", "4.8 cu.cm"], "correct": "4.8 cu.cm"},
+    {"exercise": "Exercise 8.8", "book_num": 8, "question": "The change in the surface area S = 6x² of a cube when the edge length varies from x₀ to x₀ + dx is", "options": ["12x₀ + dx", "12x₀ dx", "6x₀ dx", "6x₀ + dx"], "correct": "12x₀ dx"},
+    {"exercise": "Exercise 8.8", "book_num": 9, "question": "The approximate change in the volume V of a cube of side x metres caused by increasing the side by 1% is", "options": ["0.3x dx m³", "0.03 x m³", "0.03 x² m³", "0.03 x³ m³"], "correct": "0.03 x³ m³"},
+    {"exercise": "Exercise 8.8", "book_num": 10, "question": "If g(x,y) = 3x² - 5y + 2y², x(t) = eᵗ and y(t) = cos t, then dg/dt is equal to", "options": ["6e^(2t) + 5 sin t - 4 cos t sin t", "6e^(2t) - 5 sin t + 4 cos t sin t", "3e^(2t) + 5 sin t + 4 cos t sin t", "3e^(2t) - 5 sin t + 4 cos t sin t"], "correct": "6e^(2t) + 5 sin t + 4 cos t sin t"},
+    {"exercise": "Exercise 8.8", "book_num": 11, "question": "If f(x) = x / (x+1), then its differential is given by", "options": ["-1/(x+1)² dx", "1/(x+1)² dx", "1/(x+1) dx", "-1/(x+1) dx"], "correct": "1/(x+1)² dx"},
+    {"exercise": "Exercise 8.8", "book_num": 12, "question": "If u(x,y) = x² + 3xy + y - 2019 then ∂u/∂x evaluated at (4,-5) is equal to", "options": ["-4", "-3", "-7", "13"], "correct": "-7"},
+    {"exercise": "Exercise 8.8", "book_num": 13, "question": "Linear approximation for g(x) = cos x at x = π/2 is", "options": ["x + π/2", "-x + π/2", "x - π/2", "-x - π/2"], "correct": "-x + π/2"},
+    {"exercise": "Exercise 8.8", "book_num": 14, "question": "If w(x,y,z) = x²(y-z) + y²(z-x) + z²(x-y) then ∂w/∂x + ∂w/∂y + ∂w/∂z is", "options": ["xy + yz + zx", "x(y+z)", "y(z+x)", "0"], "correct": "0"},
+    {"exercise": "Exercise 8.8", "book_num": 15, "question": "If f(x,y,z) = xy + yz + zx, then f_x - f_z is equal to", "options": ["z - x", "y - z", "x - z", "y - x"], "correct": "y - z"},
 
-            // === EXERCISE 9.10 ===
-            { exercise: "Exercise 9.10", question: "The value of ∫₀^(²/³) dx / √(4 - 9x²) is", options: ["π/6", "π/2", "π/4", "π"], correct: "π/6" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₋₁² |x| dx is", options: ["1/2", "3/2", "5/2", "7/2"], correct: "5/2" },
-            { exercise: "Exercise 9.10", question: "For any value of n in ℤ, the value of ∫₀^π e^(cos²(x)) · cos³((2n+1)x) dx is", options: ["π/2", "π", "0", "2"], correct: "0" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₀^(π/²) sin²(x) cos(x) dx is", options: ["3/2", "1/2", "0", "1/3"], correct: "1/3" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₋₄⁴ [tan⁻¹(x²/(x⁴+1)) + tan⁻¹((x⁴+1)/x²)] dx is", options: ["π", "2π", "3π", "4π"], correct: "4π" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₋₍_π_/_₄_₎^(π/₄) ((2x⁷ - 3x⁵ + 7x³ - x + 1)/cos²(x)) dx is", options: ["4", "2", "0", "1"], correct: "2" },
-            { exercise: "Exercise 9.10", question: "If f(x) = ∫₀ˣ t cos(t) dt, then df/dx =", options: ["cos x - x sin x", "sin x + x cos x", "x cos x", "x sin x"], correct: "x cos x" },
-            { exercise: "Exercise 9.10", question: "The area between y² = 4x and its latus rectum is", options: ["4/3", "2/3", "8/3", "5/3"], correct: "8/3" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₀¹ x(1 - x)⁹⁹ dx is", options: ["1/11000", "1/10100", "1/10010", "1/10001"], correct: "1/10100" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₀^π dx / (1 + 5^(cos x)) is", options: ["π/2", "π", "3π/2", "2π"], correct: "π/2" },
-            { exercise: "Exercise 9.10", question: "If Γ(n+2)/Γ(n) = 90 then n is", options: ["10", "5", "8", "9"], correct: "9" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₀^(π/⁶) cos³(3x) dx is", options: ["2/3", "2/9", "1/9", "1/3"], correct: "2/9" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₀^π sin⁴(x) dx is", options: ["3π/10", "3π/8", "3π/4", "3π/2"], correct: "3π/8" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₀^∞ e⁻³ˣ · x² dx is", options: ["7/27", "5/27", "4/27", "2/27"], correct: "2/27" },
-            { exercise: "Exercise 9.10", question: "If ∫₀ᵃ dx/(4+x²) = π/8, then a is", options: ["4", "1", "3", "2"], correct: "2" },
-            { exercise: "Exercise 9.10", question: "The volume of solid of revolution of the region bounded by y² = x(a-x) about x-axis is", options: ["π a³", "π a³ / 4", "π a³ / 6", "π a³ / 5"], correct: "π a³ / 6" },
-            { exercise: "Exercise 9.10", question: "If f(x) = ∫₁ˣ e^(sin u)/u du, x > 1 and ∫₁³ e^(sin x²)/x dx = ½ [f(a) - f(1)], then a possible value of a is", options: ["3", "6", "9", "5"], correct: "9" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₀¹ (sin⁻¹(x))² dx is", options: ["π²/4 - 1", "π²/4 + 2", "π²/4 + 1", "π²/4 - 2"], correct: "π²/4 - 2" },
-            { exercise: "Exercise 9.10", question: "The value of ∫₀ᵃ (√(a² - x²))³ dx is", options: ["3π a³ / 16", "3π a⁴ / 16", "3π a² / 8", "3π a⁴ / 8"], correct: "3π a⁴ / 16" },
-            { exercise: "Exercise 9.10", question: "If ∫₀ˣ f(t) dt = x + ∫ₓ¹ t f'(t) dt then the value of f(1) is", options: ["1/2", "2", "1", "3/4"], correct: "1/2" },
+    # === EXERCISE 9.10: APPLICATIONS OF INTEGRATION ===
+    {"exercise": "Exercise 9.10", "book_num": 1, "question": "The value of ∫₀^(²/³) dx / √(4 - 9x²) is", "options": ["π/6", "π/2", "π/4", "π"], "correct": "π/6"},
+    {"exercise": "Exercise 9.10", "book_num": 2, "question": "The value of ∫₋₁² |x| dx is", "options": ["1/2", "3/2", "5/2", "7/2"], "correct": "5/2"},
+    {"exercise": "Exercise 9.10", "book_num": 3, "question": "For any value of n in ℤ, the value of ∫₀^π e^(cos²(x)) · cos³((2n+1)x) dx is", "options": ["π/2", "π", "0", "2"], "correct": "0"},
+    {"exercise": "Exercise 9.10", "book_num": 4, "question": "The value of ∫₀^(π/²) sin²(x) cos(x) dx is", "options": ["3/2", "1/2", "0", "1/3"], "correct": "1/3"},
+    {"exercise": "Exercise 9.10", "book_num": 5, "question": "The value of ∫₋₄⁴ [tan⁻¹(x²/(x⁴+1)) + tan⁻¹((x⁴+1)/x²)] dx is", "options": ["π", "2π", "3π", "4π"], "correct": "4π"},
+    {"exercise": "Exercise 9.10", "book_num": 6, "question": "The value of ∫₋₍_π_/_₄_₎^(π/₄) ((2x⁷ - 3x⁵ + 7x³ - x + 1)/cos²(x)) dx is", "options": ["4", "2", "0", "1"], "correct": "2"},
+    {"exercise": "Exercise 9.10", "book_num": 7, "question": "If f(x) = ∫₀ˣ t cos(t) dt, then df/dx =", "options": ["cos x - x sin x", "sin x + x cos x", "x cos x", "x sin x"], "correct": "x cos x"},
+    {"exercise": "Exercise 9.10", "book_num": 8, "question": "The area between y² = 4x and its latus rectum is", "options": ["4/3", "2/3", "8/3", "5/3"], "correct": "8/3"},
+    {"exercise": "Exercise 9.10", "book_num": 9, "question": "The value of ∫₀¹ x(1 - x)⁹⁹ dx is", "options": ["1/11000", "1/10100", "1/10010", "1/10001"], "correct": "1/10100"},
+    {"exercise": "Exercise 9.10", "book_num": 10, "question": "The value of ∫₀^π dx / (1 + 5^(cos x)) is", "options": ["π/2", "π", "3π/2", "2π"], "correct": "π/2"},
+    {"exercise": "Exercise 9.10", "book_num": 11, "question": "If Γ(n+2)/Γ(n) = 90 then n is", "options": ["10", "5", "8", "9"], "correct": "9"},
+    {"exercise": "Exercise 9.10", "book_num": 12, "question": "The value of ∫₀^(π/⁶) cos³(3x) dx is", "options": ["2/3", "2/9", "1/9", "1/3"], "correct": "2/9"},
+    {"exercise": "Exercise 9.10", "book_num": 13, "question": "The value of ∫₀^π sin⁴(x) dx is", "options": ["3π/10", "3π/8", "3π/4", "3π/2"], "correct": "3π/8"},
+    {"exercise": "Exercise 9.10", "book_num": 14, "question": "The value of ∫₀^∞ e⁻³ˣ · x² dx is", "options": ["7/27", "5/27", "4/27", "2/27"], "correct": "2/27"},
+    {"exercise": "Exercise 9.10", "book_num": 15, "question": "If ∫₀ᵃ dx/(4+x²) = π/8, then a is", "options": ["4", "1", "3", "2"], "correct": "2"},
+    {"exercise": "Exercise 9.10", "book_num": 16, "question": "The volume of solid of revolution of the region bounded by y² = x(a-x) about x-axis is", "options": ["π a³", "π a³ / 4", "π a³ / 6", "π a³ / 5"], "correct": "π a³ / 6"},
+    {"exercise": "Exercise 9.10", "book_num": 17, "question": "If f(x) = ∫₁ˣ e^(sin u)/u du, x > 1 and ∫₁³ e^(sin x²)/x dx = ½ [f(a) - f(1)], then a possible value of a is", "options": ["3", "6", "9", "5"], "correct": "9"},
+    {"exercise": "Exercise 9.10", "book_num": 18, "question": "The value of ∫₀¹ (sin⁻¹(x))² dx is", "options": ["π²/4 - 1", "π²/4 + 2", "π²/4 + 1", "π²/4 - 2"], "correct": "π²/4 - 2"},
+    {"exercise": "Exercise 9.10", "book_num": 19, "question": "The value of ∫₀ᵃ (√(a² - x²))³ dx is", "options": ["3π a³ / 16", "3π a⁴ / 16", "3π a² / 8", "3π a⁴ / 8"], "correct": "3π a⁴ / 16"},
+    {"exercise": "Exercise 9.10", "book_num": 20, "question": "If ∫₀ˣ f(t) dt = x + ∫ₓ¹ t f'(t) dt then the value of f(1) is", "options": ["1/2", "2", "1", "3/4"], "correct": "1/2"},
 
-            // === EXERCISE 10.9 ===
-            { exercise: "Exercise 10.9", question: "The order and degree of the differential equation d²y/dx² + (dy/dx)^(1/3) + x^(1/4) = 0 are respectively", options: ["2, 3", "3, 3", "2, 6", "2, 4"], correct: "2, 3" },
-            { exercise: "Exercise 10.9", question: "The differential equation representing the family of curves y = A cos(x + B), where A and B are parameters, is", options: ["d²y/dx² - y = 0", "d²y/dx² + y = 0", "d²y/dx² = 0", "d²x/dy² = 0"], correct: "d²y/dx² + y = 0" },
-            { exercise: "Exercise 10.9", question: "The order and degree of the differential equation √(sin x)(dx + dy) = √(cos x)(dx - dy) is", options: ["1, 2", "2, 2", "1, 1", "2, 1"], correct: "1, 1" },
-            { exercise: "Exercise 10.9", question: "The order of the differential equation of all circles with centre at (h, k) and radius 'a' is", options: ["2", "3", "4", "1"], correct: "2" },
-            { exercise: "Exercise 10.9", question: "The differential equation of the family of curves y = Aeˣ + Be⁻ˣ where A and B are arbitrary constants is", options: ["d²y/dx² + y = 0", "d²y/dx² - y = 0", "dy/dx + y = 0", "dy/dx - y = 0"], correct: "d²y/dx² - y = 0" },
-            { exercise: "Exercise 10.9", question: "The general solution of the differential equation dy/dx = y/x is", options: ["xy = k", "y = k log x", "y = kx", "log y = kx"], correct: "y = kx" },
-            { exercise: "Exercise 10.9", question: "The solution of the differential equation 2x dy/dx - y = 3 represents", options: ["straight lines", "circles", "parabolas", "ellipses"], correct: "parabolas" },
-            { exercise: "Exercise 10.9", question: "The solution of dy/dx + p(x)y = 0 is", options: ["y = c e^( integral p dx )", "y = c e^( - integral p dx )", "x = c e^( - integral p dy )", "x = c e^( integral p dx )"], correct: "y = c e^( - integral p dx )" },
-            { exercise: "Exercise 10.9", question: "The integrating factor of the differential equation dy/dx + y = (1+y)/λ is", options: ["x / e^x", "e^x / x", "lambda e^x", "e^(x(1 - 1/lambda))"], correct: "e^(x(1 - 1/lambda))" },
-            { exercise: "Exercise 10.9", question: "If the integrating factor of the differential equation dy/dx + P(x)y = Q(x) is x, then P(x) is", options: ["x", "x² / 2", "1/x", "1/x²"], correct: "1/x" },
-            { exercise: "Exercise 10.9", question: "The degree of the differential equation y(x) = 1 + dy/dx + 1/(1·2)(dy/dx)² + 1/(1·2·3)(dy/dx)³ + ... is", options: ["2", "3", "1", "4"], correct: "1" },
-            { exercise: "Exercise 10.9", question: "If p and q are the order and degree of the differential equation y dy/dx + x³ (d²y/dx²) + xy = cos x, then", options: ["p < q", "p = q", "p > q", "p exists and q does not exist"], correct: "p > q" },
-            { exercise: "Exercise 10.9", question: "The solution of the differential equation dy/dx + 1/√(1-x²) = 0 is", options: ["y + sin⁻¹(x) = c", "x + sin⁻¹(y) = 0", "y² + 2 sin⁻¹(x) = C", "x² + 2 sin⁻¹(y) = 0"], correct: "y + sin⁻¹(x) = c" },
-            { exercise: "Exercise 10.9", question: "The solution of the differential equation dy/dx = 2xy is", options: ["y = C e^(x²)", "y = 2x² + C", "y = C e^(-x²) + C", "y = x² + C"], correct: "y = C e^(x²)" },
-            { exercise: "Exercise 10.9", question: "The general solution of the differential equation log(dy/dx) = x + y is", options: ["eˣ + eʸ = C", "eˣ + e⁻ʸ = C", "e⁻ˣ + eʸ = C", "e⁻ˣ + e⁻ʸ = C"], correct: "e⁻ˣ + e⁻ʸ = C" },
-            { exercise: "Exercise 10.9", question: "The solution of dy/dx = 2^(y-x) is", options: ["2ˣ + 2ʸ = C", "2ˣ - 2ʸ = C", "1/2\u207b\u02e3 - 1/2\u207b\u02e5 = C", "2\u207b\u02e3 + 2\u207b\u02e5 = C"], correct: "1/2^x - 1/2^y = C" },
-            { exercise: "Exercise 10.9", question: "The solution of the differential equation dy/dx = y/x + φ(y/x)/φ'(y/x) is", options: ["x φ(y/x) = k", "φ(y/x) = kx", "y φ(y/x) = k", "φ(y/x) = ky"], correct: "phi(y/x) = kx" },
-            { exercise: "Exercise 10.9", question: "If sin x is the integrating factor of the linear differential equation dy/dx + Py = Q, then P is", options: ["log sin x", "cos x", "tan x", "cot x"], correct: "cot x" },
-            { exercise: "Exercise 10.9", question: "The number of arbitrary constants in the general solutions of order n and n+1 are respectively", options: ["n-1, n", "n, n+1", "n+1, n+2", "n+1, n"], correct: "n, n+1" },
-            { exercise: "Exercise 10.9", question: "The number of arbitrary constants in the particular solution of a differential equation of third order is", options: ["3", "2", "1", "0"], correct: "0" },
+    # === EXERCISE 10.9: ORDINARY DIFFERENTIAL EQUATIONS ===
+    {"exercise": "Exercise 10.9", "book_num": 1, "question": "The order and degree of the differential equation d²y/dx² + (dy/dx)^(1/3) + x^(1/4) = 0 are respectively", "options": ["2, 3", "3, 3", "2, 6", "2, 4"], "correct": "2, 3"},
+    {"exercise": "Exercise 10.9", "book_num": 2, "question": "The differential equation representing the family of curves y = A cos(x + B), where A and B are parameters, is", "options": ["d²y/dx² - y = 0", "d²y/dx² + y = 0", "d²y/dx² = 0", "d²x/dy² = 0"], "correct": "d²y/dx² + y = 0"},
+    {"exercise": "Exercise 10.9", "book_num": 3, "question": "The order and degree of the differential equation √(sin x)(dx + dy) = √(cos x)(dx - dy) is", "options": ["1, 2", "2, 2", "1, 1", "2, 1"], "correct": "1, 1"},
+    {"exercise": "Exercise 10.9", "book_num": 4, "question": "The order of the differential equation of all circles with centre at (h, k) and radius 'a' is", "options": ["2", "3", "4", "1"], "correct": "2"},
+    {"exercise": "Exercise 10.9", "book_num": 5, "question": "The differential equation of the family of curves y = Aeˣ + Be⁻ˣ where A and B are arbitrary constants is", "options": ["d²y/dx² + y = 0", "d²y/dx² - y = 0", "dy/dx + y = 0", "dy/dx - y = 0"], "correct": "d²y/dx² - y = 0"},
+    {"exercise": "Exercise 10.9", "book_num": 6, "question": "The general solution of the differential equation dy/dx = y/x is", "options": ["xy = k", "y = k log x", "y = kx", "log y = kx"], "correct": "y = kx"},
+    {"exercise": "Exercise 10.9", "book_num": 7, "question": "The solution of the differential equation 2x dy/dx - y = 3 represents", "options": ["straight lines", "circles", "parabolas", "ellipses"], "correct": "parabolas"},
+    {"exercise": "Exercise 10.9", "book_num": 8, "question": "The solution of dy/dx + p(x)y = 0 is", "options": ["y = c e^( integral p dx )", "y = c e^( - integral p dx )", "x = c e^( - integral p dy )", "x = c e^( integral p dx )"], "correct": "y = c e^( - integral p dx )"},
+    {"exercise": "Exercise 10.9", "book_num": 9, "question": "The integrating factor of the differential equation dy/dx + y = (1+y)/λ is", "options": ["x / e^x", "e^x / x", "lambda e^x", "e^(x(1 - 1/lambda))"], "correct": "e^(x(1 - 1/lambda))"},
+    {"exercise": "Exercise 10.9", "book_num": 10, "question": "If the integrating factor of the differential equation dy/dx + P(x)y = Q(x) is x, then P(x) is", "options": ["x", "x² / 2", "1/x", "1/x²"], "correct": "1/x"},
+    {"exercise": "Exercise 10.9", "book_num": 11, "question": "The degree of the differential equation y(x) = 1 + dy/dx + 1/(1·2)(dy/dx)² + 1/(1·2·3)(dy/dx)³ + ... is", "options": ["2", "3", "1", "4"], "correct": "1"},
+    {"exercise": "Exercise 10.9", "book_num": 12, "question": "If p and q are the order and degree of the differential equation y dy/dx + x³ (d²y/dx²) + xy = cos x, then", "options": ["p < q", "p = q", "p > q", "p exists and q does not exist"], "correct": "p > q"},
+    {"exercise": "Exercise 10.9", "book_num": 13, "question": "The solution of the differential equation dy/dx + 1/√(1-x²) = 0 is", "options": ["y + sin⁻¹(x) = c", "x + sin⁻¹(y) = 0", "y² + 2 sin⁻¹(x) = C", "x² + 2 sin⁻¹(y) = 0"], "correct": "y + sin⁻¹(x) = c"},
+    {"exercise": "Exercise 10.9", "book_num": 14, "question": "The solution of the differential equation dy/dx = 2xy is", "options": ["y = C e^(x²)", "y = 2x² + C", "y = C e^(-x²) + C", "y = x² + C"], "correct": "y = C e^(x²)"},
+    {"exercise": "Exercise 10.9", "book_num": 15, "question": "The general solution of the differential equation log(dy/dx) = x + y is", "options": ["eˣ + eʸ = C", "eˣ + e⁻ʸ = C", "e⁻ˣ + eʸ = C", "e⁻ˣ + e⁻ʸ = C"], "correct": "e⁻ˣ + e⁻ʸ = C"}, 
+    {"exercise": "Exercise 10.9", "book_num": 16, "question": "The solution of dy/dx = 2^(y-x) is", "options": ["2ˣ + 2ʸ = C", "2ˣ - 2ʸ = C", "1/2\u207b\u02e3 - 1/2\u207b\u02e5 = C", "2\u207b\u02e3 + 2\u207b\u02e5 = C"], "correct": "1/2^x - 1/2^y = C"},
+    {"exercise": "Exercise 10.9", "book_num": 17, "question": "The solution of the differential equation dy/dx = y/x + φ(y/x)/φ'(y/x) is", "options": ["x φ(y/x) = k", "φ(y/x) = kx", "y φ(y/x) = k", "φ(y/x) = ky"], "correct": "phi(y/x) = kx"},
+    {"exercise": "Exercise 10.9", "book_num": 18, "question": "If sin x is the integrating factor of the linear differential equation dy/dx + Py = Q, then P is", "options": ["log sin x", "cos x", "tan x", "cot x"], "correct": "cot x"},
+    {"exercise": "Exercise 10.9", "book_num": 19, "question": "The number of arbitrary constants in the general solutions of order n and n+1 are respectively", "options": ["n-1, n", "n, n+1", "n+1, n+2", "n+1, n"], "correct": "n, n+1"},
+    {"exercise": "Exercise 10.9", "book_num": 20, "question": "The number of arbitrary constants in the particular solution of a differential equation of third order is", "options": ["3", "2", "1", "0"], "correct": "0"},
+    {"exercise": "Exercise 10.9", "book_num": 21, "question": "Integrating factor of the differential equation dy/dx = (x+y+1)/(x+1) is", "options": ["1/(x+1)", "x+1", "1/sqrt(x+1)", "sqrt(x+1)"], "correct": "1/(x+1)"},
+    {"exercise": "Exercise 10.9", "book_num": 22, "question": "The population P in any year t is such that the rate of increase in the population is proportional to the population. Then:", "options": ["P = Ce^(kt)", "P = Ce^(-kt)", "P = Ckt", "P = C"], "correct": "P = Ce^(kt)"},
+    {"exercise": "Exercise 10.9", "book_num": 23, "question": "P is the amount of certain substance left after time t. If the rate of evaporation of the substance is proportional to the amount remaining, then:", "options": ["P = Ce^(kt)", "P = Ce^(-kt)", "P = Ckt", "Pt = C"], "correct": "P = Ce^(-kt)"},
+    {"exercise": "Exercise 10.9", "book_num": 24, "question": "If the solution of the differential equation dy/dx = (ax+3)/(2y+f) represents a circle, then the value of a is", "options": ["2", "-2", "1", "-1"], "correct": "-2"},
+    {"exercise": "Exercise 10.9", "book_num": 25, "question": "The slope at any point of a curve y = f(x) is given by dy/dx = 3x² and it passes through (-1,1). Then the equation of the curve is", "options": ["y = x³ + 2", "y = 3x² + 4", "y = 3x³ + 4", "y = x³ + 5"], "correct": "y = x³ + 2"},
 
-            // === EXERCISE 11.6 ===
-            { exercise: "Exercise 11.6", question: "Let X be a random variable with pdf f(x) = 2/x³ for x ≥ 1, and 0 for x < 1. Which statement is correct?", options: ["both mean and variance exist", "mean exists but variance does not exist", "both mean and variance do not exist", "variance exists but mean does not exist"], correct: "mean exists but variance does not exist" },
-            { exercise: "Exercise 11.6", question: "A rod of length 2l is broken into two pieces at random. The pdf of the shorter piece is f(x) = 1/l for 0 < x < l, and 0 for l ≤ x < 2l. The mean and variance of the shorter piece are respectively:", options: ["l/2, l²/3", "l/2, l²/6", "l/2, l²/12", "l/4, l²/12"], correct: "l/2, l²/12" },
-            { exercise: "Exercise 11.6", question: "Consider a game where the player tosses a die. If 6 comes up, the player wins 36, otherwise he loses 7k², where k is the face that comes up k={1,2,3,4,5}. Expected win amount is", options: ["19/6", "-19/6", "3/2", "-3/2"], correct: "-19/6" },
-            { exercise: "Exercise 11.6", question: "A pair of dice numbered 1,2,3,4,5,6 and 1,2,3,4 is rolled and the sum determined. Let X denote this sum. The number of elements in the inverse image of 7 is", options: ["1", "2", "3", "4"], correct: "4" },
-            { exercise: "Exercise 11.6", question: "A random variable X has binomial distribution with n=25 and p=0.8 then standard deviation of X is", options: ["6", "4", "3", "2"], correct: "2" },
-            { exercise: "Exercise 11.6", question: "Let X represent the difference between the number of heads and tails obtained when a coin is tossed n times. Then possible values of X are:", options: ["i + 2n, i=0,1..n", "2i - n, i=0,1..n", "n - i, i=0,1..n", "2i + 2n, i=0,1..n"], correct: "2i - n, i=0,1..n" },
-            { exercise: "Exercise 11.6", question: "If the function f(x) = 1/12 for a < x < b represents a pdf of a continuous random variable X, then which of the following cannot be the value of a and b?", options: ["0 and 12", "5 and 17", "7 and 19", "16 and 24"], correct: "16 and 24" },
-            { exercise: "Exercise 11.6", question: "Four buses carrying 160 students arrive at stadium holding 42, 36, 34, 48 students. Let X denote students on bus of a random student. Let Y denote students on bus of a random driver. E(X) and E(Y) are:", options: ["50, 40", "40, 50", "40.75, 40", "41, 41"], correct: "40.75, 40" },
-            { exercise: "Exercise 11.6", question: "Two coins are flipped. First coin lands heads with prob 0.6, second with 0.5. Flips are independent. Let X equal total heads. E(X) is", options: ["0.11", "1.1", "11", "1"], correct: "1.1" },
-            { exercise: "Exercise 11.6", question: "On a multiple choice exam with 3 possible distractors (4 options total per question) for each of 5 questions, the probability that a student gets 4 or more correct answers by guessing is", options: ["11/243", "3/8", "1/243", "21/1024"], correct: "21/1024" },
+    # === EXERCISE 11.6: PROBABILITY DISTRIBUTIONS ===
+    {"exercise": "Exercise 11.6", "book_num": 1, "question": "Let X be a random variable with pdf f(x) = 2/x³ for x ≥ 1, and 0 for x < 1. Which statement is correct?", "options": ["both mean and variance exist", "mean exists but variance does not exist", "both mean and variance do not exist", "variance exists but mean does not exist"], "correct": "mean exists but variance does not exist"},
+    {"exercise": "Exercise 11.6", "book_num": 2, "question": "A rod of length 2l is broken into two pieces at random. The pdf of the shorter piece is f(x) = 1/l for 0 < x < l, and 0 for l ≤ x < 2l. The mean and variance of the shorter piece are respectively:", "options": ["l/2, l²/3", "l/2, l²/6", "l/2, l²/12", "l/4, l²/12"], "correct": "l/2, l²/12"},
+    {"exercise": "Exercise 11.6", "book_num": 3, "question": "Consider a game where the player tosses a die. If 6 comes up, the player wins 36, otherwise he loses 7k², where k is the face that comes up k={1,2,3,4,5}. Expected win amount is", "options": ["19/6", "-19/6", "3/2", "-3/2"], "correct": "-19/6"},
+    {"exercise": "Exercise 11.6", "book_num": 4, "question": "A pair of dice numbered 1,2,3,4,5,6 and 1,2,3,4 is rolled and the sum determined. Let X denote this sum. The number of elements in the inverse image of 7 is", "options": ["1", "2", "3", "4"], "correct": "4"},
+    {"exercise": "Exercise 11.6", "book_num": 5, "question": "A random variable X has binomial distribution with n=25 and p=0.8 then standard deviation of X is", "options": ["6", "4", "3", "2"], "correct": "2"},
+    {"exercise": "Exercise 11.6", "book_num": 6, "question": "Let X represent the difference between the number of heads and tails obtained when a coin is tossed n times. Then possible values of X are:", "options": ["i + 2n, i=0,1..n", "2i - n, i=0,1..n", "n - i, i=0,1..n", "2i + 2n, i=0,1..n"], "correct": "2i - n, i=0,1..n"},
+    {"exercise": "Exercise 11.6", "book_num": 7, "question": "If the function f(x) = 1/12 for a < x < b represents a pdf of a continuous random variable X, then which of the following cannot be the value of a and b?", "options": ["0 and 12", "5 and 17", "7 and 19", "16 and 24"], "correct": "16 and 24"},
+    {"exercise": "Exercise 11.6", "book_num": 8, "question": "Four buses carrying 160 students arrive at stadium holding 42, 36, 34, 48 students. Let X denote students on bus of a random student. Let Y denote students on bus of a random driver. E(X) and E(Y) are:", "options": ["50, 40", "40, 50", "40.75, 40", "41, 41"], "correct": "40.75, 40"},
+    {"exercise": "Exercise 11.6", "book_num": 9, "question": "Two coins are flipped. First coin lands heads with prob 0.6, second with 0.5. Flips are independent. Let X equal total heads. E(X) is", "options": ["0.11", "1.1", "11", "1"], "correct": "1.1"},
+    {"exercise": "Exercise 11.6", "book_num": 10, "question": "On a multiple choice exam with 3 possible distractors (4 options total per question) for each of 5 questions, the probability that a student gets 4 or more correct answers by guessing is", "options": ["11/243", "3/8", "1/243", "21/1024"], "correct": "21/1024"}, 
+    {"exercise": "Exercise 11.6", "book_num": 11, "question": "If P(X=0) = 1 - P(X=1) and E(X) = 3Var(X), then P(X=0) is", "options": ["2/3", "2/5", "1/5", "1/3"], "correct": "2/3"},
+    {"exercise": "Exercise 11.6", "book_num": 12, "question": "If X is a binomial random variable with expected value 6 and variance 2.4, then P(X=5) is", "options": ["nCr(10,5)(3/5)^6(2/5)^4", "nCr(10,5)(3/5)^10", "nCr(10,5)(3/5)^4(2/5)^6", "nCr(10,5)(3/5)^5(2/5)^5"], "correct": "nCr(10,5)(3/5)^6(2/5)^4"}, 
+    {"exercise": "Exercise 11.6", "book_num": 13, "question": "The random variable X has pdf f(x) = ax + b for 0 < x < 1, and 0 otherwise. If E(X) = 7/12, then a and b are respectively:", "options": ["1 and 1/2", "1/2 and 1", "2 and 1", "1 and 2"], "correct": "1 and 1/2"},
+    {"exercise": "Exercise 11.6", "book_num": 14, "question": "Suppose X takes values 0, 1, 2. If P(X=i) = k P(X=i-1) for i=1,2 and P(X=0) = 1/7, then the value of k is", "options": ["1", "2", "3", "4"], "correct": "2"},
+    {"exercise": "Exercise 11.6", "book_num": 15, "question": "Which of the following is a discrete random variable?\nI. Number of cars crossing a signal in a day.\nII. Number of customers in a queue at a moment.\nIII. Time taken to complete a phone call.", "options": ["I and II", "II only", "III only", "II and III"], "correct": "I and II"},
+    {"exercise": "Exercise 11.6", "book_num": 16, "question": "If f(x) = 2x for 0 <= x <= a, and 0 otherwise, represents a pdf, then the value of a is", "options": ["1", "2", "3", "4"], "correct": "1"},
+    {"exercise": "Exercise 11.6", "book_num": 17, "question": "The pmf of X is defined as x=[-2, -1, 0, 1, 2] with f(x)=[k, 2k, 3k, 4k, 5k]. Then E(X) is equal to:", "options": ["1/15", "1/10", "1/3", "2/3"], "correct": "2/3"},
+    {"exercise": "Exercise 11.6", "book_num": 18, "question": "Let X have a Bernoulli distribution with mean 0.4, then the variance of (2X-3) is", "options": ["0.24", "0.48", "0.6", "0.96"], "correct": "0.96"},
+    {"exercise": "Exercise 11.6", "book_num": 19, "question": "If in 6 trials, X is a binomial variable which follows the relation 9P(X=4) = P(X=2), then the probability of success is", "options": ["0.125", "0.25", "0.375", "0.75"], "correct": "0.25"},
+    {"exercise": "Exercise 11.6", "book_num": 20, "question": "A salesperson knows he sells computers to one in every twenty customers. What is the probability that he will sell a computer to exactly two of the next three customers?", "options": ["57/20^3", "57/20^2", "19^3/20^3", "57/20"], "correct": "57/20^3"},
 
-            // === EXERCISE 12.3 ===
-            { exercise: "Exercise 12.3", question: "A binary operation on a set S is a function from", options: ["S -> S", "(S x S) -> S", "S -> (S x S)", "(S x S) -> (S x S)"], correct: "(S x S) -> S" },
-            { exercise: "Exercise 12.3", question: "Subtraction is not a binary operation in", options: ["R", "Z", "N", "Q"], correct: "N" },
-            { exercise: "Exercise 12.3", question: "Which one of the following is a binary operation on N?", options: ["Subtraction", "Multiplication", "Division", "All the above"], correct: "Multiplication" },
-            { exercise: "Exercise 12.3", question: "In the set R, '*' is defined as follows. Which one of the following is not a binary operation on R?", options: ["a * b = min(a, b)", "a * b = max(a, b)", "a * b = a", "a * b = a^b"], correct: "a * b = a^b" },
-            { exercise: "Exercise 12.3", question: "The operation * defined by a * b = ab / 7 is not a binary operation on", options: ["Q^+", "Z", "R", "C"], correct: "Z" },
-            { exercise: "Exercise 12.3", question: "In the set Q, define a O b = a + b + ab. For what value of y, 3 O (y O 5) = 7?", options: ["y = 2/3", "y = -2/3", "y = -3/2", "y = 4"], correct: "y = -2/3" },
-            { exercise: "Exercise 12.3", question: "If a * b = √(a² + b²) on the real numbers then * is", options: ["commutative but not associative", "associative but not commutative", "both commutative and associative", "neither commutative nor associative"], correct: "both commutative and associative" },
-            { exercise: "Exercise 12.3", question: "Which one of the following statements has the truth value T?", options: ["sin x is an even function.", "Every square matrix is non-singular", "The product of complex number and its conjugate is purely imaginary", "√5 is an irrational number"], correct: "√5 is an irrational number" },
-            { exercise: "Exercise 12.3", question: "Which one of the following statements has truth value F?", options: ["Chennai is in India or √2 is an integer", "Chennai is in India or √2 is an irrational number", "Chennai is in China or √2 is an integer", "Chennai is in China or √2 is an irrational number"], correct: "Chennai is in China or √2 is an integer" },
-            { exercise: "Exercise 12.3", question: "If a compound statement involves 3 simple statements, then the number of rows in the truth table is", options: ["9", "8", "6", "3"], correct: "8" }
-        ];
+    # === EXERCISE 12.3: DISCRETE MATHEMATICS ===
+    {"exercise": "Exercise 12.3", "book_num": 1, "question": "A binary operation on a set S is a function from", "options": ["S -> S", "(S x S) -> S", "S -> (S x S)", "(S x S) -> (S x S)"], "correct": "(S x S) -> S"},
+    {"exercise": "Exercise 12.3", "book_num": 2, "question": "Subtraction is not a binary operation in", "options": ["R", "Z", "N", "Q"], "correct": "N"},
+    {"exercise": "Exercise 12.3", "book_num": 3, "question": "Which one of the following is a binary operation on N?", "options": ["Subtraction", "Multiplication", "Division", "All the above"], "correct": "Multiplication"},
+    {"exercise": "Exercise 12.3", "book_num": 4, "question": "In the set R, '*' is defined as follows. Which one of the following is not a binary operation on R?", "options": ["a * b = min(a, b)", "a * b = max(a, b)", "a * b = a", "a * b = a^b"], "correct": "a * b = a^b"},
+    {"exercise": "Exercise 12.3", "book_num": 5, "question": "The operation * defined by a * b = ab / 7 is not a binary operation on", "options": ["Q^+", "Z", "R", "C"], "correct": "Z"},
+    {"exercise": "Exercise 12.3", "book_num": 6, "question": "In the set Q, define a O b = a + b + ab. For what value of y, 3 O (y O 5) = 7?", "options": ["y = 2/3", "y = -2/3", "y = -3/2", "y = 4"], "correct": "y = -2/3"},
+    {"exercise": "Exercise 12.3", "book_num": 7, "question": "If a * b = √(a² + b²) on the real numbers then * is", "options": ["commutative but not associative", "associative but not commutative", "both commutative and associative", "neither commutative nor associative"], "correct": "both commutative and associative"},
+    {"exercise": "Exercise 12.3", "book_num": 8, "question": "Which one of the following statements has the truth value T?", "options": ["sin x is an even function.", "Every square matrix is non-singular", "The product of complex number and its conjugate is purely imaginary", "√5 is an irrational number"], "correct": "√5 is an irrational number"},
+    {"exercise": "Exercise 12.3", "book_num": 9, "question": "Which one of the following statements has truth value F?", "options": ["Chennai is in India or √2 is an integer", "Chennai is in India or √2 is an irrational number", "Chennai is in China or √2 is an integer", "Chennai is in China or √2 is an irrational number"], "correct": "Chennai is in China or √2 is an integer"},
+    {"exercise": "Exercise 12.3", "book_num": 10, "question": "If a compound statement involves 3 simple statements, then the number of rows in the truth table is", "options": ["9", "8", "6", "3"], "correct": "8"},
+    {"exercise": "Exercise 12.3", "book_num": 11, "question": "Which one is the inverse of the statement (p ∨ q) → (p ∧ q)?", "options": ["(p ∧ q) → (p ∨ q)", "∼(p ∨ q) → ∼(p ∧ q)", "(∼p ∨ ∼q) → (∼p ∧ ∼q)", "(∼p ∧ ∼q) → (∼p ∨ ∼q)"], "correct": "(~p ^ ~q) -> (~p v ~q)"}, 
+    {"exercise": "Exercise 12.3", "book_num": 12, "question": "Which one is the contrapositive of the statement (p ∨ q) → r?", "options": ["∼r → (∼p ∧ ∼q)", "∼r → (p ∨ q)", "r → (p ∧ q)", "p → (q ∨ r)"], "correct": "~r -> (~p ^ ~q)"},
+    {"exercise": "Exercise 12.3", "book_num": 13, "question": "The true outcomes in the final column of the truth table for (p ∧ q) ∨ ∼q for inputs [TT, TF, FT, FF] are respectively:", "options": ["T, T, T, T", "T, F, T, T", "T, T, F, T", "T, F, F, F"], "correct": "T, T, F, T"},
+    {"exercise": "Exercise 12.3", "book_num": 14, "question": "In the last column of the truth table for ∼(p ∨ ∼q) the number of final outcomes of the truth value 'F' are", "options": ["1", "2", "3", "4"], "correct": "3"},
+    {"exercise": "Exercise 12.3", "book_num": 15, "question": "Which one of the following is incorrect? For any two propositions p and q, we have", "options": ["∼(p ∨ q) == ∼p ∧ ∼q", "∼(p ∧ q) == ∼p ∨ ∼q", "∼(p ∨ q) == ∼p ∨ ∼q", "∼(∼p) == p"], "correct": "~(p v q) == ~p v ~q"},
+    {"exercise": "Exercise 12.3", "book_num": 16, "question": "The final row values for the statement (p ∧ q) → ∼p across classical truth inputs [TT, TF, FT, FF] are:", "options": ["T, T, T, T", "F, T, T, T", "F, F, T, T", "T, T, T, F"], "correct": "F, T, T, T"},
+    {"exercise": "Exercise 12.3", "book_num": 17, "question": "The dual of ∼(p ∨ q) ∨ [p ∨ (p ∧ ∼r)] is", "options": ["∼(p ∧ q) ∧ [p ∨ (p ∧ ∼r)]", "(p ∧ q) ∧ [p ∧ (p ∨ ∼r)]", "∼(p ∧ q) ∧ [p ∧ (p ∧ r)]", "∼(p ∧ q) ∧ [p ∧ (p ∨ ∼r)]"], "correct": "~(p ^ q) ^ [p ^ (p v ~r)]"},
+    {"exercise": "Exercise 12.3", "book_num": 18, "question": "The proposition p ∧ (∼p ∨ q) is", "options": ["a tautology", "a contradiction", "logically equivalent to p ∧ q", "logically equivalent to p ∨ q"], "correct": "logically equivalent to p ^ q"},
+    {"exercise": "Exercise 12.3", "book_num": 19, "question": "Determine the truth values of: (a) 4+2=5 and 6+3=9, (b) 3+2=5 and 6+1=7, (c) 4+5=9 and 1+2=4, (d) 3+2=5 and 4+7=11", "options": ["F, T, F, T", "T, F, T, F", "T, T, F, F", "F, F, T, T"], "correct": "F, T, F, T"},
+    {"exercise": "Exercise 12.3", "book_num": 20, "question": "Which one of the following is not true?", "options": ["Negation of a negation of a statement is the statement itself.", "If the last column of the truth table contains only T then it is a tautology.", "If the last column of its truth table contains only F then it is a contradiction", "If p and q are any two statements then p ↔ q is a tautology."], "correct": "If p and q are any two statements then p <-> q is a tautology."}
+];
 
         function filterExercise(scope) {
             currentScope = scope;
