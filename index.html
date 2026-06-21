@@ -4,18 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinity Tuitions - Math Solutions</title>
-    <!-- MathJax for rendering textbook-perfect equations -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/input/mathml:javascript/latest.js?config=TeX-MML-AM_CHTML"></script>
+    
+    <!-- Updated MathJax Configuration for perfect math rendering -->
     <script>
         window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
         };
     </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+    
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
         header { text-align: center; padding: 40px 0; background: #0056b3; color: white; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        header h1 { margin: 0; font-size: 2.5rem; letter-spacing: 1px; }
+        header h1 { margin: 0; font-size: 2.5rem; letter-spacing: 1px; font-weight: bold; }
         header p { margin: 10px 0 0 0; font-style: italic; opacity: 0.9; }
         .class-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
         .class-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; width: 220px; transition: transform 0.2s; }
@@ -23,9 +32,9 @@
         .btn { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-size: 0.85rem; display: inline-block; font-weight: bold; }
         .section-title { margin-top: 40px; border-bottom: 2px solid #0056b3; padding-bottom: 10px; color: #111; }
         .solution-card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 25px; border-left: 5px solid #0056b3; }
-        .chapter-tag { background: #e6f0fa; color: #0056b3; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; display: inline-block; margin-bottom: 10px; }
-        .step { margin-bottom: 15px; }
-        .step-title { font-weight: bold; color: #0056b3; }
+        .chapter-tag { background: #e6f0fa; color: #0056b3; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; display: inline-block; margin-bottom: 15px; }
+        .step { margin-bottom: 20px; }
+        .step-title { font-weight: bold; color: #0056b3; display: block; margin-bottom: 5px; }
         .tip-box { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 4px; margin-top: 15px; font-size: 0.95rem; }
     </style>
 </head>
@@ -55,28 +64,41 @@
     </div>
 
     <h2 id="class10" class="section-title">Class 10 Solutions</h2>
+    
     <div class="solution-card">
         <span class="chapter-tag">Quadratic Equations</span>
         <h3>Problem: Solve $x^2 - 5x + 6 = 0$ by Factorization</h3>
+        
         <div class="step">
             <span class="step-title">Step 1: Split the Middle Term</span>
+            <p>Find two numbers that multiply to $6$ and add up to $-5$. Those numbers are $-2$ and $-3$.</p>
             <p>$$x^2 - 2x - 3x + 6 = 0$$</p>
         </div>
+        
         <div class="step">
-            <span class="step-title">Step 2: Factor out terms</span>
-            <p>$$x(x - 2) - 3(x - 2) = 0 \implies (x - 2)(x - 3) = 0$$</p>
+            <span class="step-title">Step 2: Take Out Common Factors</span>
+            <p>Group the terms and factor them out:</p>
+            <p>$$x(x - 2) - 3(x - 2) = 0$$</p>
+            <p>$$(x - 2)(x - 3) = 0$$</p>
         </div>
+        
         <div class="step">
-            <span class="step-title">Step 3: Roots</span>
-            <p>$x = 2$ or $x = 3$</p>
+            <span class="step-title">Step 3: Find the Roots</span>
+            <p>Set each factor to $0$:</p>
+            <p>$$x - 2 = 0 \implies x = 2$$</p>
+            <p>$$x - 3 = 0 \implies x = 3$$</p>
+        </div>
+        
+        <div class="tip-box">
+            <strong>💡 Master Guide Note:</strong> Always verify your signs. A common trap is writing $(x+2)(x+3)$, which results in $+5x$ instead of $-5x$.
         </div>
     </div>
 
     <h2 id="class11" class="section-title">Class 11 Solutions</h2>
-    <p style="color: #666; padding: 20px;">Solutions coming soon!</p>
+    <p style="color: #666; padding: 20px; font-style: italic;">Solutions coming soon!</p>
 
     <h2 id="class12" class="section-title">Class 12 Solutions</h2>
-    <p style="color: #666; padding: 20px;">Solutions coming soon!</p>
+    <p style="color: #666; padding: 20px; font-style: italic;">Solutions coming soon!</p>
 
 </body>
 </html>
