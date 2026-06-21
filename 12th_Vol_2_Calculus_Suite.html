@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Tuitions - 12th Vol 2 Calculus Master Engine</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+    <style>
+        :root {
+            --bg: #f4f6f9;
+            --surface: #ffffff;
+            --primary: #001A4D;
+            --primary-light: #e8f0fe;
+            --accent: #0D47A1;
+            --text: #2c3e50;
+            --text-muted: #7f8c8d;
+            --success: #21B339;
+            --danger: #e74c3c;
+            --border: #ddd;
+        }
+
+        [data-theme="Dark"] {
+            --bg: #121212;
+            --surface: #1e1e1e;
+            --primary: #0a0a0a;
+            --primary-light: #1b365d;
+            --accent: #3498db;
+            --text: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --border: #333;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 50px; }
+        
+        /* Unified Header Navigation Brand Bar featuring Logo Integration */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .brand-container { display: flex; align-items: center; gap: 15px; }
+        .brand-logo { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid white; background-color: white; }
+        .brand-text h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: 0.5px; }
+        .brand-text p { font-size: 0.9rem; font-style: italic; opacity: 0.85; }
+        
+        .nav-actions { display: flex; gap: 15px; align-items: center; }
+        .action-btn { background: var(--accent); color: white; border: none; padding: 10px 16px; border-radius: 5px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 0.9rem; }
+        .action-btn:hover { opacity: 0.9; }
+
+        .wrapper { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 25px; }
+        
+        /* Core UI Split Segment Display Matrix */
+        .workspace-grid { display: grid; grid-template-columns: 1fr 320px; gap: 25px; }
+        @media (max-width: 800px) { .workspace-grid { grid-template-columns: 1fr; } }
+        
+        .quiz-option { display: block; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--border); padding: 14px 18px; border-radius: 6px; margin-bottom: 12px; font-size: 1rem; color: var(--text); cursor: pointer; }
+        .quiz-option:hover { background-color: var(--primary-light); }
+        
+        .exercise-badge { background-color: var(--primary-light); color: var(--accent); font-weight: bold; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; display: inline-block; margin-bottom: 10px; }
+        .ledger-box { width: 100%; height: 280px; font-family: monospace; background: #111; color: #2ecc71; padding: 15px; border-radius: 6px; resize: none; margin-top: 15px; font-size: 0.9rem; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-container">
+            <img src="infinity_logo.jpg" alt="Infinity Tuitions Logo" class="brand-logo">
+            <div class="brand-text">
+                <h1>INFINITY TUITIONS</h1>
+                <p>12th Volume 2 Master Workspace Hub</p>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <a href="index.html" class="action-btn" style="background-color: #555;">↩ Home Hub</a>
+            <button class="action-btn" id="theme-btn" onclick="switchTheme()">🌓 Theme: Light</button>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="workspace-grid">
+            <main class="card" id="question-board">
+                <span class="exercise-badge" id="ex-tag">Loading Active Matrix Data Setup...</span>
+                <h3 style="margin-bottom: 20px; font-size: 1.25rem;" id="q-text">Processing core mathematical equations profiles...</h3>
+                <div id="options-block"></div>
+            </main>
+
+            <aside class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h4 style="border-bottom: 2px solid var(--bg); padding-bottom: 8px; margin-bottom: 15px;">Performance Ledger</h4>
+                    <p style="margin-bottom: 8px; font-size: 0.95rem;">Total Answered: <strong id="m-total">0</strong></p>
+                    <p style="margin-bottom: 8px; font-size: 0.95rem;">Accuracy Vector: <strong id="m-acc" style="color: var(--success);">100%</strong></p>
+                </div>
+                <div>
+                    <button class="action-btn" style="width: 100%; background: var(--success); margin-top: 20px;" onclick="generateSystemReport()">💾 Compile Performance Report</button>
+                </div>
+            </aside>
+        </div>
+
+        <div class="card" id="report-view-panel" style="display: none;">
+            <h3>Performance Audit Data Map Output</h3>
+            <textarea class="ledger-box" id="ledger-text" readonly></textarea>
+        </div>
+    </div>
+
+    <script>
+        let currentTheme = "Light";
+        let activeIdx = 0;
+        let answered = 0;
+        let correctAnswersCount = 0;
+        
+        // Comprehensive Dataset Mapping Extracted directly from Python Source Engine Profile Arrays
+        const calculusData = [
+            {
+                ex: "EXERCISE 7.10 - APPLICATIONS OF DIFFERENTIAL CALCULUS",
+                q: "The curve $y = ax^3 + bx^2 + cx + d$ has an inflection point at $(1, 2)$ and a local minimum at $(0, 1)$. Find the absolute value configuration profile for coefficient product calculation matrix summaries ($a+b+c+d$).",
+                opts: ["1", "2", "3", "4"],
+                ans: 1
+            },
+            {
+                ex: "EXERCISE 7.10 - APPLICATIONS OF DIFFERENTIAL CALCULUS",
+                q: "Evaluate the limit condition limit profile matching sequences: $\\lim_{x \\to 0^+} (\\sin x)^x$.",
+                opts: ["0", "1", "$e$", "Does Not Exist"],
+                ans: 1
+            }
+        ];
+
+        function refreshQuestionView() {
+            if (activeIdx >= calculusData.length) {
+                document.getElementById("question-board").innerHTML = `<h3>Evaluation Sequence Complete. Review Performance Audit Log metrics.</h3>`;
+                return;
+            }
+            const dataObj = calculusData[activeIdx];
+            document.getElementById("ex-tag").innerText = dataObj.ex;
+            document.getElementById("q-text").innerHTML = dataObj.q;
+            
+            const optWrapper = document.getElementById("options-block");
+            optWrapper.innerHTML = "";
+            
+            dataObj.opts.forEach((optText, index) => {
+                const element = document.createElement("button");
+                element.className = "quiz-option";
+                element.innerHTML = `${index + 1}) ${optText}`;
+                element.onclick = () => verifyUserSubmission(index);
+                optWrapper.appendChild(element);
+            });
+            
+            if (window.MathJax) { MathJax.typesetPromise(); }
+        }
+
+        function verifyUserSubmission(chosenIdx) {
+            answered++;
+            if(chosenIdx === calculusData[activeIdx].ans) {
+                correctAnswersCount++;
+                alert("Correct Entry Recorded.");
+            } else {
+                alert("Incorrect Vector Calculation Trace Processed.");
+            }
+            document.getElementById("m-total").innerText = answered;
+            document.getElementById("m-acc").innerText = `${Math.round((correctAnswersCount / answered) * 100)}%`;
+            activeIdx++;
+            refreshQuestionView();
+        }
+
+        function generateSystemReport() {
+            document.getElementById("report-view-panel").style.display = "block";
+            const textarea = document.getElementById("ledger-text");
+            textarea.value = `==================================================\n` +
+                             `INFINITY TUITIONS - PERFORMANCE LEDGER AUDIT\n` +
+                             `==================================================\n` +
+                             `Timestamp Hash Traces: ${new Date().toISOString()}\n` +
+                             `Evaluated Metrics: ${answered} Problems Answered\n` +
+                             `Precision Target Value Score: ${document.getElementById("m-acc").innerText}\n` +
+                             `==================================================\n` +
+                             `Status Profile Trace Output: Success.`;
+        }
+
+        function switchTheme() {
+            currentTheme = currentTheme === "Light" ? "Dark" : "Light";
+            document.documentElement.setAttribute("data-theme", currentTheme);
+            document.getElementById("theme-btn").innerText = `🌓 Theme: ${currentTheme}`;
+        }
+
+        window.onload = refreshQuestionView;
+    </script>
+</body>
+</html>
