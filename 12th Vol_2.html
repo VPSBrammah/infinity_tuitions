@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Tuitions - Adaptive Evaluation Engine (Vol 2)</title>
+    <style>
+        :root {
+            --bg: #f4f6f9;
+            --surface: #ffffff;
+            --primary: #001A4D;
+            --primary-light: #e8f0fe;
+            --accent: #0D47A1;
+            --text: #2c3e50;
+            --text-muted: #7f8c8d;
+            --success: #21B339;
+            --danger: #e74c3c;
+            --border: #dcdde1;
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="Dark"] {
+            --bg: #121212;
+            --surface: #1e1e1e;
+            --primary: #0a0a0a;
+            --primary-light: #1b365d;
+            --accent: #3498db;
+            --text: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --border: #2c2c2c;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* App Wrapper Structure */
+        #app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Branded Header */
+        header {
+            background-color: var(--primary);
+            color: #ffffff;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-theme {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Main Shell Layout */
+        .workspace-shell {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 70px);
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        sidebar {
+            width: 260px;
+            background-color: var(--primary);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+            gap: 8px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        sidebar .brand-sub {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        sidebar button {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.85);
+            border: none;
+            text-align: left;
+            padding: 14px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        sidebar button:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        sidebar button.active-nav {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Views Main Canvas */
+        .view-port {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .hidden-view {
+            display: none !important;
+        }
+
+        /* SCREEN 1: LOGIN PORTAL */
+        .login-view-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .login-left-banner {
+            flex: 1.1;
+            background-color: #062A63;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            background-linear: linear-gradient(135deg, #062A63 0%, #001A4D 100%);
+        }
+
+        .login-left-banner h2 {
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1.3;
+            letter-spacing: 1px;
+        }
+
+        .login-left-banner p {
+            margin-top: 15px;
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .login-right-form {
+            flex: 0.9;
+            background-color: var(--surface);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 45px;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .form-container h3 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 15px;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent);
+        }
+
+        .btn-submit-form {
+            width: 100%;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.2);
+        }
+
+        /* CARD COMPONENT FRAMEWORK */
+        .card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 4px 6px var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        /* SCREEN 2: HOME DASHBOARD SPECIFICS */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .welcome-card h2 {
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .welcome-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .module-card h4, .diagnostic-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .radio-option-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option-row:hover {
+            background-color: var(--primary-light);
+        }
+
+        .radio-option-row input {
+            margin-right: 12px;
+            transform: scale(1.1);
+        }
+
+        .radio-option-row label {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .engine-mode-selector {
+            background-color: var(--primary-light);
+            padding: 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0 15px 0;
+        }
+
+        .mode-radio {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .mode-radio[data-mode="PRACTICE"] { color: var(--accent); }
+        .mode-radio[data-mode="EXAM"] { color: var(--danger); }
+
+        .btn-instantiate {
+            background-color: var(--success);
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(33, 179, 57, 0.2);
+        }
+
+        /* Analytics Tree Table styling */
+        .analytics-table-container {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        table.analytics-tree {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        table.analytics-tree th {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+
+        table.analytics-tree td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--surface);
+        }
+
+        /* Custom Visual Micro-distribution chart macro structure using inline vector geometry styles */
+        .chart-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 15px;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 15px;
+            margin-top: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-box {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        /* SCREEN 3: ACTIVE TEST ENVIRONMENT BED */
+        .testbed-grid {
+            display: grid;
+            grid-template-columns: 4fr 1.3fr;
+            gap: 20px;
+            height: 100%;
+        }
+
+        .meta-strip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .lbl-meta { color: var(--text-muted); }
+        .lbl-timer { color: var(--danger); font-size: 15px; }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .question-statement-box {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            color: var(--text);
+        }
+
+        .mcq-option-button {
+            display: block;
+            width: 100%;
+            padding: 14px 20px;
+            text-align: left;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .mcq-option-button:hover:not([disabled]) {
+            background-color: var(--primary-light);
+            border-color: var(--accent);
+        }
+
+        .mcq-option-button.selected-locked {
+            background-color: var(--primary-light) !important;
+            border-color: var(--accent) !important;
+        }
+
+        .mcq-option-button.eval-correct {
+            background-color: var(--success) !important;
+            color: white !important;
+            border-color: var(--success) !important;
+        }
+
+        .mcq-option-button.eval-wrong {
+            background-color: var(--danger) !important;
+            color: white !important;
+            border-color: var(--danger) !important;
+        }
+
+        .control-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .control-bar .left-group, .control-bar .right-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-ctrl {
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            color: white;
+        }
+
+        .btn-ctrl-primary { background-color: var(--primary); }
+        .btn-ctrl-muted { background-color: var(--text-muted); }
+        .btn-ctrl-success { background-color: var(--success); }
+        .btn-ctrl-danger { background-color: var(--danger); }
+        
+        .btn-ctrl:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Right Navigation Structural Grid Map Matrix */
+        .matrix-sidebar {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .matrix-grid-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text);
+            text-align: center;
+        }
+
+        .matrix-grid-scroller {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .matrix-grid-layout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .matrix-node-btn {
+            padding: 10px 0;
+            font-size: 12px;
+            font-weight: 700;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .matrix-node-btn.active-node {
+            background-color: var(--accent) !important;
+            color: white !important;
+            border-color: var(--accent) !important;
+        }
+
+        .matrix-node-btn.node-answered-exam {
+            background-color: var(--primary-light);
+        }
+
+        .matrix-node-btn.node-correct {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .matrix-node-btn.node-wrong {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* SCREEN 4: EVALUATION LEDGER SUMMARY VIEW */
+        .report-header-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .scrolled-report-ledger {
+            width: 100%;
+            height: 420px;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            padding: 15px;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            border-radius: 6px;
+            line-height: 1.4;
+        }
+
+        .report-action-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    <header>
+        <h1 id="header-title">INFINITY TUITIONS : 2026-2027</h1>
+        <div class="header-controls">
+            <button class="btn-theme" id="theme-toggle-btn" onclick="switchTheme()">Theme: Light</button>
+        </div>
+    </header>
+
+    <div class="workspace-shell">
+        <sidebar id="left-sidebar" class="hidden-view">
+            <div class="brand-sub">WORKSPACE CONTROL</div>
+            <button id="nav-dash" class="active-nav" onclick="confirmExitToDashboard()">Dashboard Home</button>
+            <button onclick="switchTheme()">Toggle Dark/Light</button>
+            <button onclick="showLoginScreen()">Sign Out Session</button>
+        </sidebar>
+
+        <main class="view-port">
+            
+            <div id="view-login" class="login-view-wrapper">
+                <div class="login-left-banner">
+                    <h2>INFINITY<br>LEARN & LEAD</h2>
+                    <p>Adaptive Evaluation Engine Ecosystem<br>Volume 2 Compendium Matrix</p>
+                </div>
+                <div class="login-right-form">
+                    <div class="form-container">
+                        <h3>Student Access Portal</h3>
+                        <div class="form-group">
+                            <label>Student Name / Unique Identifier ID:</label>
+                            <input type="text" id="input-username" value="admin">
+                        </div>
+                        <div class="form-group">
+                            <label>Batch / Class Allocation Group:</label>
+                            <input type="text" id="input-batch" value="Class 12-Vol 2">
+                        </div>
+                        <button class="btn-submit-form" onclick="runAuthSequence()">Continue to Workspace</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-dashboard" class="hidden-view">
+                <div class="welcome-card card">
+                    <h2 id="welcome-text">Welcome back, admin</h2>
+                    <p id="profile-subtext">Batch Allocation: Class 12-Vol 2 | Accuracy Rating: 0% (0 Run Sessions)</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card module-card">
+                        <h4>Select Chapter Focus Module Evaluation Segment</h4>
+                        
+                        <div class="radio-option-row" onclick="document.getElementById('mod-7').checked=true">
+                            <input type="radio" name="module-select" id="mod-7" value="Exercise 7.10">
+                            <label>Chapter 7: Exercise 7.10 (Applications of Differential Calculus)</label>
+                        </div>
+                        <div class="radio-option-row" onclick="document.getElementById('mod-8').checked=true">
+                            <input type="radio" name="module-select" id="mod-8" value="Exercise 8.8">
+                            <label>Chapter 8: Exercise 8.8 (Differentials & Partial Derivatives)</label>
+                        </div>
+                        <div class="radio-option-row" onclick="document.getElementById('mod-9').checked=true">
+                            <input type="radio" name="module-select" id="mod-9" value="Exercise 9.10">
+                            <label>Chapter 9: Exercise 9.10 (Applications of Integration)</label>
+                        </div>
+                        <div class="radio-option-row" onclick="document.getElementById('mod-10').checked=true">
+                            <input type="radio" name="module-select" id="mod-10" value="Exercise 10.9">
+                            <label>Chapter 10: Exercise 10.9 (Ordinary Differential Equations)</label>
+                        </div>
+                        <div class="radio-option-row" onclick="document.getElementById('mod-11').checked=true">
+                            <input type="radio" name="module-select" id="mod-11" value="Exercise 11.6">
+                            <label>Chapter 11: Exercise 11.6 (Probability Distributions)</label>
+                        </div>
+                        <div class="radio-option-row" onclick="document.getElementById('mod-12').checked=true">
+                            <input type="radio" name="module-select" id="mod-12" value="Exercise 12.3">
+                            <label>Chapter 12: Exercise 12.3 (Discrete Mathematics)</label>
+                        </div>
+                        <div class="radio-option-row" onclick="document.getElementById('mod-all').checked=true">
+                            <input type="radio" name="module-select" id="mod-all" value="ALL" checked>
+                            <label>[Master Combo Matrix]: Combined Universal Evaluation Pool</label>
+                        </div>
+
+                        <div class="engine-mode-selector">
+                            <div class="mode-radio" data-mode="PRACTICE">
+                                <input type="radio" name="engine-mode" id="mode-practice" value="PRACTICE" checked>
+                                <label for="mode-practice">Practice Deck Mode (Untimed)</label>
+                            </div>
+                            <div class="mode-radio" data-mode="EXAM">
+                                <input type="radio" name="engine-mode" id="mode-exam" value="EXAM">
+                                <label for="mode-exam">Exam Matrix Mode (Strict Clock)</label>
+                            </div>
+                        </div>
+
+                        <button class="btn-instantiate" onclick="initializeTestVectors()">⚡ Instantiate Target Evaluation Engine</button>
+                    </div>
+
+                    <div class="card diagnostic-card">
+                        <h4>Diagnostic Log Analytics</h4>
+                        <div class="analytics-table-container">
+                            <table class="analytics-tree" id="logs-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timeline</th>
+                                        <th>Target Matrix</th>
+                                        <th>Accuracy</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    </tbody>
+                            </table>
+                        </div>
+
+                        <h4>Aggregated Distribution Metric</h4>
+                        <div class="chart-wrapper">
+                            <svg width="160" height="160" viewBox="0 0 32 32" id="pie-chart-svg" style="transform: rotate(-90deg); border-radius: 50%;">
+                                </svg>
+                            <div class="chart-legend">
+                                <div class="legend-item"><div class="legend-box" style="background-color: var(--success)"></div>Correct:<span id="chart-leg-correct">0</span></div>
+                                <div class="legend-item"><div class="legend-box" style="background-color: var(--danger)"></div>Wrong:<span id="chart-leg-wrong">0</span></div>
+                                <div class="legend-item"><div class="legend-box" style="background-color: var(--text-muted)"></div>Skipped:<span id="chart-leg-skipped">0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-quiz" class="hidden-view style-quiz-layout">
+                <div class="testbed-grid">
+                    <div class="left-quiz-deck">
+                        <div class="meta-strip">
+                            <div id="quiz-lbl-meta" class="lbl-meta">📌 Module Target Block Segment</div>
+                            <div id="quiz-lbl-timer" class="lbl-timer">⏱ Countdown Matrix: 00:00</div>
+                        </div>
+                        
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="quiz-progress-fill"></div>
+                        </div>
+
+                        <div class="card" style="min-height: 320px;">
+                            <div class="question-statement-box" id="quiz-question-text">Question loading state statement string vector...</div>
+                            <div id="quiz-options-group">
+                                </div>
+                        </div>
+
+                        <div class="control-bar">
+                            <div class="left-group">
+                                <button class="btn-ctrl btn-ctrl-primary" id="btn-prev" onclick="goPreviousNode()">◀ Previous</button>
+                                <button class="btn-ctrl btn-ctrl-muted" onclick="skipCurrentNode()">Skip Matrix ⏭</button>
+                                <button class="btn-ctrl btn-ctrl-primary" id="btn-bookmark" onclick="toggleBookmarkState()">🔖 Bookmark Vector</button>
+                            </div>
+                            <div class="right-group">
+                                <button class="btn-ctrl btn-ctrl-danger" onclick="manualAbortSequence()">Halt & Finalize</button>
+                                <button class="btn-ctrl btn-ctrl-success" id="btn-commit" onclick="commitSelectedAnswer()">Submit Answer ✔</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card matrix-sidebar">
+                        <div class="matrix-grid-title">Structural Matrix Grid</div>
+                        <div class="matrix-grid-scroller">
+                            <div class="matrix-grid-layout" id="navigation-matrix-grid">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-report" class="hidden-view">
+                <div class="card" style="height: 100%;">
+                    <div class="report-header-title" id="report-efficiency-status">Metric Matrix Efficiency Status: 0% Accuracy Calculated</div>
+                    <div class="scrolled-report-ledger" id="report-text-area">Generating Diagnostic Data Stream Ledger Logs...</div>
+                    <div class="report-action-row">
+                        <button class="btn-ctrl btn-ctrl-primary" style="padding: 12px 20px;" onclick="exitToDashboardHome()">↩ Exit Workspace to Home Hub</button>
+                        <button class="btn-ctrl btn-ctrl-success" style="padding: 12px 20px;" onclick="exportToTextReport()">💾 Export Audit Report Text File</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script>
+    // =========================================================================
+    // CORE MASTER STATIC KNOWLEDGE MATRIX DATA REGISTRY POOL
+    // =========================================================================
+    const ALL_QUESTIONS = [
+        // === EXERCISE 7.10: APPLICATIONS OF DIFFERENTIAL CALCULUS ===
+        {
+            "exercise": "Exercise 7.10", "book_num": 1,
+            "question": "The volume of a sphere is increasing in volume at the rate of 3π cm³/sec. The rate of change of its radius when radius is ½ cm is",
+            "options": ["3 cm/s", "2 cm/s", "1 cm/s", "3/2 cm/s"], "correct": "3 cm/s"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 2,
+            "question": "A balloon rises straight up at 10 m/s. An observer is 40 m away from the spot where the balloon left the ground. The rate of change of the balloon's angle of elevation in radian per second when the balloon is 30 metres above the ground is",
+            "options": ["3/25 radians/sec", "4/25 radians/sec", "1/5 radians/sec", "1/3 radians/sec"], "correct": "4/25 radians/sec"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 3,
+            "question": "The position of a particle moving along a horizontal line at any time t is given by s(t) = 3t² - 2t - 8. The time at which the particle is at rest is",
+            "options": ["t = 0", "t = 1/3", "t = 1", "t = 3"], "correct": "t = 1/3"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 4,
+            "question": "A stone is thrown up vertically. The height it reaches at time t seconds is given by x = 80t - 16t². The stone reaches the maximum height in time:",
+            "options": ["2 seconds", "2.5 seconds", "3 seconds", "3.5 seconds"], "correct": "2.5 seconds"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 5,
+            "question": "The point on the curve 6y = x³ + 2 at which y-coordinate changes 8 times as fast as x-coordinate is",
+            "options": ["(4, 11)", "(4, -11)", "(-4, 11)", "(-4, -11)"], "correct": "(4, 11)"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 6,
+            "question": "The abscissa of the point on the curve f(x) = √(8 - 2x) at which the slope of the tangent is -0.25 is",
+            "options": ["-8", "-4", "-2", "0"], "correct": "-4"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 7,
+            "question": "The slope of the line normal to the curve f(x) = 2 cos(4x) at x = π/12 is",
+            "options": ["-4√3", "-4", "√3/12", "4√3"], "correct": "√3/12"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 8,
+            "question": "The tangent to the curve y² - xy + 9 = 0 is vertical when",
+            "options": ["y = 0", "y = ±√3", "y = 1/2", "y = ±3"], "correct": "y = ±3"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 9,
+            "question": "Angle between y² = x and x² = y at the origin is",
+            "options": ["tan⁻¹(3/4)", "tan⁻¹(4/3)", "π/2", "π/4"], "correct": "π/2"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 10,
+            "question": "The value of the limit limit limₓ→₀ (cot x - 1/x) is",
+            "options": ["0", "1", "2", "infinity"], "correct": "0"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 11,
+            "question": "The function sin⁴(x) + cos⁴(x) is increasing in the interval",
+            "options": ["[5π/8, 3π/4]", "[π/2, 5π/8]", "[π/4, π/2]", "[0, π/4]"], "correct": "[π/4, π/2]"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 12,
+            "question": "The number given by the Rolle's theorem for the function x³ - 3t², x ∈ [0,3] is",
+            "options": ["1", "√2", "3/2", "2"], "correct": "2"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 13,
+            "question": "The number given by the Mean value theorem for the function 1/x, x ∈ [1,9] is",
+            "options": ["2", "2.5", "3", "3.5"], "correct": "3"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 14,
+            "question": "The minimum value of the function |3 - x| + 9 is",
+            "options": ["0", "3", "6", "9"], "correct": "9"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 15,
+            "question": "The maximum slope of the tangent to the curve y = eˣ sin x, x ∈ [0, 2π] is at",
+            "options": ["x = π/4", "x = π/2", "x = π", "x = 3π/2"], "correct": "x = π/2"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 16,
+            "question": "The maximum value of the function x² e⁻²ˣ, x > 0 is",
+            "options": ["1/e", "1/(2e)", "1/e²", "4/e⁴"], "correct": "1/e²"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 17,
+            "question": "One of the closest points on the curve x² - y² = 4 to the point (6,0) is",
+            "options": ["(2,0)", "(√5,1)", "(3, √5)", "(√13, -√3)"], "correct": "(3, √5)"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 18,
+            "question": "The maximum value of the product of two positive numbers, when their sum of the squares is 200, is",
+            "options": ["100", "25√7", "28", "24√14"], "correct": "100"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 19,
+            "question": "The curve y = ax⁴ + bx² with ab > 0",
+            "options": ["has no horizontal tangent", "is concave up", "is concave down", "has no points of inflection"], "correct": "has no points of inflection"
+        },
+        {
+            "exercise": "Exercise 7.10", "book_num": 20,
+            "question": "The point of inflection of the curve y = (x - 1)³ is",
+            "options": ["(0,0)", "(0,1)", "(1,0)", "(1,1)"], "correct": "(1,0)"
+        },
+
+        // === EXERCISE 8.8: DIFFERENTIALS AND PARTIAL DERIVATIVES ===
+        {"exercise": "Exercise 8.8", "book_num": 1, "question": "A circular template has a radius of 10 cm. The measurement of radius has an approximate error of 0.02 cm. Then the percentage error in calculating area of this template is", "options": ["0.2%", "0.4%", "0.04%", "0.08%"], "correct": "0.4%"},
+        {"exercise": "Exercise 8.8", "book_num": 2, "question": "The percentage error of fifth root of 31 is approximately how many times the percentage error in 31?", "options": ["1/31", "1/5", "5", "31"], "correct": "1/5"},
+        {"exercise": "Exercise 8.8", "book_num": 3, "question": "If u(x,y) = e^(x²+y²) then ∂u/∂x is equal to", "options": ["e^(x²+y²)", "2xu", "x² u", "y² u"], "correct": "2xu"},
+        {"exercise": "Exercise 8.8", "book_num": 4, "question": "If v(x,y) = log(eˣ + eʸ) then ∂v/∂x + ∂v/∂y is equal to", "options": ["eˣ + eʸ", "1/(eˣ + eʸ)", "2", "1"], "correct": "1"},
+        {"exercise": "Exercise 8.8", "book_num": 5, "question": "If w(x,y) = xʸ, x > 0, then ∂w/∂x is equal to", "options": ["xʸ log x", "y log x", "y x^(y-1)", "x log y"], "correct": "y x^(y-1)"},
+        {"exercise": "Exercise 8.8", "book_num": 6, "question": "If f(x,y) = e^(xy), then ∂²f/∂x∂y is equal to", "options": ["xy e^(xy)", "(1+xy)e^(xy)", "(1+y)e^(xy)", "(1+x)e^(xy)"], "correct": "(1+xy)e^(xy)"},
+        {"exercise": "Exercise 8.8", "book_num": 7, "question": "If we measure the side of a cube to be 4 cm with an error of 0.1 cm, then the error in our calculation of the volume is", "options": ["0.4 cu.cm", "0.45 cu.cm", "2 cu.cm", "4.8 cu.cm"], "correct": "4.8 cu.cm"},
+        {"exercise": "Exercise 8.8", "book_num": 8, "question": "The change in the surface area S = 6x² of a cube when the edge length varies from x₀ to x₀ + dx is", "options": ["12x₀ + dx", "12x₀ dx", "6x₀ dx", "6x₀ + dx"], "correct": "12x₀ dx"},
+        {"exercise": "Exercise 8.8", "book_num": 9, "question": "The approximate change in the volume V of a cube of side x metres caused by increasing the side by 1% is", "options": ["0.3x dx m³", "0.03 x m³", "0.03 x² m³", "0.03 x³ m³"], "correct": "0.03 x³ m³"},
+        {"exercise": "Exercise 8.8", "book_num": 10, "question": "If g(x,y) = 3x² - 5y + 2y², x(t) = eᵗ and y(t) = cos t, then dg/dt is equal to", "options": ["6e^(2t) + 5 sin t - 4 cos t sin t", "6e^(2t) - 5 sin t + 4 cos t sin t", "3e^(2t) + 5 sin t + 4 cos t sin t", "3e^(2t) - 5 sin t + 4 cos t sin t"], "correct": "6e^(2t) + 5 sin t + 4 cos t sin t"},
+        {"exercise": "Exercise 8.8", "book_num": 11, "question": "If f(x) = x / (x+1), then its differential is given by", "options": ["-1/(x+1)² dx", "1/(x+1)² dx", "1/(x+1) dx", "-1/(x+1) dx"], "correct": "1/(x+1)² dx"},
+        {"exercise": "Exercise 8.8", "book_num": 12, "question": "If u(x,y) = x² + 3xy + y - 2019 then ∂u/∂x evaluated at (4,-5) is equal to", "options": ["-4", "-3", "-7", "13"], "correct": "-7"},
+        {"exercise": "Exercise 8.8", "book_num": 13, "question": "Linear approximation for g(x) = cos x at x = π/2 is", "options": ["x + π/2", "-x + π/2", "x - π/2", "-x - π/2"], "correct": "-x + π/2"},
+        {"exercise": "Exercise 8.8", "book_num": 14, "question": "If w(x,y,z) = x²(y-z) + y²(z-x) + z²(x-y) then ∂w/∂x + ∂w/∂y + ∂w/∂z is", "options": ["xy + yz + zx", "x(y+z)", "y(z+x)", "0"], "correct": "0"},
+        {"exercise": "Exercise 8.8", "book_num": 15, "question": "If f(x,y,z) = xy + yz + zx, then f_x - f_z is equal to", "options": ["z - x", "y - z", "x - z", "y - x"], "correct": "y - z"},
+
+        // === EXERCISE 9.10: APPLICATIONS OF INTEGRATION ===
+        {"exercise": "Exercise 9.10", "book_num": 1, "question": "The value of ∫₀^(²/³) dx / √(4 - 9x²) is", "options": ["π/6", "π/2", "π/4", "π"], "correct": "π/6"},
+        {"exercise": "Exercise 9.10", "book_num": 2, "question": "The value of ∫₋₁² |x| dx is", "options": ["1/2", "3/2", "5/2", "7/2"], "correct": "5/2"},
+        {"exercise": "Exercise 9.10", "book_num": 3, "question": "For any value of n in ℤ, the value of ∫₀^π e^(cos²(x)) · cos³((2n+1)x) dx is", "options": ["π/2", "π", "0", "2"], "correct": "0"},
+        {"exercise": "Exercise 9.10", "book_num": 4, "question": "The value of ∫₀^(π/²) sin²(x) cos(x) dx is", "options": ["3/2", "1/2", "0", "1/3"], "correct": "1/3"},
+        {"exercise": "Exercise 9.10", "book_num": 5, "question": "The value of ∫₋₄⁴ [tan⁻¹(x²/(x⁴+1)) + tan⁻¹((x⁴+1)/x²)] dx is", "options": ["π", "2π", "3π", "4π"], "correct": "4π"},
+        {"exercise": "Exercise 9.10", "book_num": 6, "question": "The value of ∫₋₍_π_/_₄_₎^(π/₄) ((2x⁷ - 3x⁵ + 7x³ - x + 1)/cos²(x)) dx is", "options": ["4", "2", "0", "1"], "correct": "2"},
+        {"exercise": "Exercise 9.10", "book_num": 7, "question": "If f(x) = ∫₀ˣ t cos(t) dt, then df/dx =", "options": ["cos x - x sin x", "sin x + x cos x", "x cos x", "x sin x"], "correct": "x cos x"},
+        {"exercise": "Exercise 9.10", "book_num": 8, "question": "The area between y² = 4x and its latus rectum is", "options": ["4/3", "2/3", "8/3", "5/3"], "correct": "8/3"},
+        {"exercise": "Exercise 9.10", "book_num": 9, "question": "The value of ∫₀¹ x(1 - x)⁹⁹ dx is", "options": ["1/11000", "1/10100", "1/10010", "1/10001"], "correct": "1/10100"},
+        {"exercise": "Exercise 9.10", "book_num": 10, "question": "The value of ∫₀^π dx / (1 + 5^(cos x)) is", "options": ["π/2", "π", "3π/2", "2π"], "correct": "π/2"},
+        {"exercise": "Exercise 9.10", "book_num": 11, "question": "If Γ(n+2)/Γ(n) = 90 then n is", "options": ["10", "5", "8", "9"], "correct": "9"},
+        {"exercise": "Exercise 9.10", "book_num": 12, "question": "The value of ∫₀^(π/⁶) cos³(3x) dx is", "options": ["2/3", "2/9", "1/9", "1/3"], "correct": "2/9"},
+        {"exercise": "Exercise 9.10", "book_num": 13, "question": "The value of ∫₀^π sin⁴(x) dx is", "options": ["3π/10", "3π/8", "3π/4", "3π/2"], "correct": "3π/8"},
+        {"exercise": "Exercise 9.10", "book_num": 14, "question": "The value of ∫₀^∞ e⁻³ˣ · x² dx is", "options": ["7/27", "5/27", "4/27", "2/27"], "correct": "2/27"},
+        {"exercise": "Exercise 9.10", "book_num": 15, "question": "If ∫₀ᵃ dx/(4+x²) = π/8, then a is", "options": ["4", "1", "3", "2"], "correct": "2"},
+        {"exercise": "Exercise 9.10", "book_num": 16, "question": "The volume of solid of revolution of the region bounded by y² = x(a-x) about x-axis is", "options": ["π a³", "π a³ / 4", "π a³ / 6", "π a³ / 5"], "correct": "π a³ / 6"},
+        {"exercise": "Exercise 9.10", "book_num": 17, "question": "If f(x) = ∫₁ˣ e^(sin u)/u du, x > 1 and ∫₁³ e^(sin x²)/x dx = ½ [f(a) - f(1)], then a possible value of a is", "options": ["3", "6", "9", "5"], "correct": "9"},
+        {"exercise": "Exercise 9.10", "book_num": 18, "question": "The value of ∫₀¹ (sin⁻¹(x))² dx is", "options": ["π²/4 - 1", "π²/4 + 2", "π²/4 + 1", "π²/4 - 2"], "correct": "π²/4 - 2"},
+        {"exercise": "Exercise 9.10", "book_num": 19, "question": "The value of ∫₀ᵃ (√(a² - x²))³ dx is", "options": ["3π a³ / 16", "3π a⁴ / 16", "3π a² / 8", "3π a⁴ / 8"], "correct": "3π a⁴ / 16"},
+        {"exercise": "Exercise 9.10", "book_num": 20, "question": "If ∫₀ˣ f(t) dt = x + ∫ₓ¹ t f'(t) dt then the value of f(1) is", "options": ["1/2", "2", "1", "3/4"], "correct": "1/2"},
+
+        // === EXERCISE 10.9: ORDINARY DIFFERENTIAL EQUATIONS ===
+        {"exercise": "Exercise 10.9", "book_num": 1, "question": "The order and degree of the differential equation d²y/dx² + (dy/dx)^(1/3) + x^(1/4) = 0 are respectively", "options": ["2, 3", "3, 3", "2, 6", "2, 4"], "correct": "2, 3"},
+        {"exercise": "Exercise 10.9", "book_num": 2, "question": "The differential equation representing the family of curves y = A cos(x + B), where A and B are parameters, is", "options": ["d²y/dx² - y = 0", "d²y/dx² + y = 0", "d²y/dx² = 0", "d²x/dy² = 0"], "correct": "d²y/dx² + y = 0"},
+        {"exercise": "Exercise 10.9", "book_num": 3, "question": "The order and degree of the differential equation √(sin x)(dx + dy) = √(cos x)(dx - dy) is", "options": ["1, 2", "2, 2", "1, 1", "2, 1"], "correct": "1, 1"},
+        {"exercise": "Exercise 10.9", "book_num": 4, "question": "The order of the differential equation of all circles with centre at (h, k) and radius 'a' is", "options": ["2", "3", "4", "1"], "correct": "2"},
+        {"exercise": "Exercise 10.9", "book_num": 5, "question": "The differential equation of the family of curves y = Aeˣ + Be⁻ˣ where A and B are arbitrary constants is", "options": ["d²y/dx² + y = 0", "d²y/dx² - y = 0", "dy/dx + y = 0", "dy/dx - y = 0"], "correct": "d²y/dx² - y = 0"},
+        {"exercise": "Exercise 10.9", "book_num": 6, "question": "The general solution of the differential equation dy/dx = y/x is", "options": ["xy = k", "y = k log x", "y = kx", "log y = kx"], "correct": "y = kx"},
+        {"exercise": "Exercise 10.9", "book_num": 7, "question": "The solution of the differential equation 2x dy/dx - y = 3 represents", "options": ["straight lines", "circles", "parabolas", "ellipses"], "correct": "parabolas"},
+        {"exercise": "Exercise 10.9", "book_num": 8, "question": "The solution of dy/dx + p(x)y = 0 is", "options": ["y = c e^( integral p dx )", "y = c e^( - integral p dx )", "x = c e^( - integral p dy )", "x = c e^( integral p dx )"], "correct": "y = c e^( - integral p dx )"},
+        {"exercise": "Exercise 10.9", "book_num": 9, "question": "The integrating factor of the differential equation dy/dx + y = (1+y)/λ is", "options": ["x / e^x", "e^x / x", "lambda e^x", "e^(x(1 - 1/lambda))"], "correct": "e^(x(1 - 1/lambda))"},
+        {"exercise": "Exercise 10.9", "book_num": 10, "question": "If the integrating factor of the differential equation dy/dx + P(x)y = Q(x) is x, then P(x) is", "options": ["x", "x² / 2", "1/x", "1/x²"], "correct": "1/x"},
+        {"exercise": "Exercise 10.9", "book_num": 11, "question": "The degree of the differential equation y(x) = 1 + dy/dx + 1/(1·2)(dy/dx)² + 1/(1·2·3)(dy/dx)³ + ... is", "options": ["2", "3", "1", "4"], "correct": "1"},
+        {"exercise": "Exercise 10.9", "book_num": 12, "question": "If p and q are the order and degree of the differential equation y dy/dx + x³ (d²y/dx²) + xy = cos x, then", "options": ["p < q", "p = q", "p > q", "p exists and q does not exist"], "correct": "p > q"},
+        {"exercise": "Exercise 10.9", "book_num": 13, "question": "The solution of the differential equation dy/dx + 1/√(1-x²) = 0 is", "options": ["y + sin⁻¹(x) = c", "x + sin⁻¹(y) = 0", "y² + 2 sin⁻¹(x) = C", "x² + 2 sin⁻¹(y) = 0"], "correct": "y + sin⁻¹(x) = c"},
+        {"exercise": "Exercise 10.9", "book_num": 14, "question": "The solution of the differential equation dy/dx = 2xy is", "options": ["y = C e^(x²)", "y = 2x² + C", "y = C e^(-x²) + C", "y = x² + C"], "correct": "y = C e^(x²)"},
+        {"exercise": "Exercise 10.9", "book_num": 15, "question": "The general solution of the differential equation log(dy/dx) = x + y is", "options": ["eˣ + eʸ = C", "eˣ + e⁻ʸ = C", "e⁻ˣ + eʸ = C", "e⁻ˣ + e⁻ʸ = C"], "correct": "e⁻ˣ + e⁻ʸ = C"}, 
+        {"exercise": "Exercise 10.9", "book_num": 16, "question": "The solution of dy/dx = 2^(y-x) is", "options": ["2ˣ + 2ʸ = C", "2ˣ - 2ʸ = C", "1/2\u207b\u02e3 - 1/2\u207b\u02e5 = C", "2\u207b\u02e3 + 2\u207b\u02e5 = C"], "correct": "1/2^x - 1/2^y = C"},
+        {"exercise": "Exercise 10.9", "book_num": 17, "question": "The solution of the differential equation dy/dx = y/x + φ(y/x)/φ'(y/x) is", "options": ["x φ(y/x) = k", "φ(y/x) = kx", "y φ(y/x) = k", "φ(y/x) = ky"], "correct": "phi(y/x) = kx"},
+        {"exercise": "Exercise 10.9", "book_num": 18, "question": "If sin x is the integrating factor of the linear differential equation dy/dx + Py = Q, then P is", "options": ["log sin x", "cos x", "tan x", "cot x"], "correct": "cot x"},
+        {"exercise": "Exercise 10.9", "book_num": 19, "question": "The number of arbitrary constants in the general solutions of order n and n+1 are respectively", "options": ["n-1, n", "n, n+1", "n+1, n+2", "n+1, n"], "correct": "n, n+1"},
+        {"exercise": "Exercise 10.9", "book_num": 20, "question": "The number of arbitrary constants in the particular solution of a differential equation of third order is", "options": ["3", "2", "1", "0"], "correct": "0"},
+        {"exercise": "Exercise 10.9", "book_num": 21, "question": "Integrating factor of the differential equation dy/dx = (x+y+1)/(x+1) is", "options": ["1/(x+1)", "x+1", "1/sqrt(x+1)", "sqrt(x+1)"], "correct": "1/(x+1)"},
+        {"exercise": "Exercise 10.9", "book_num": 22, "question": "The population P in any year t is such that the rate of increase in the population is proportional to the population. Then:", "options": ["P = Ce^(kt)", "P = Ce^(-kt)", "P = Ckt", "P = C"], "correct": "P = Ce^(kt)"},
+        {"exercise": "Exercise 10.9", "book_num": 23, "question": "P is the amount of certain substance left after time t. If the rate of evaporation of the substance is proportional to the amount remaining, then:", "options": ["P = Ce^(kt)", "P = Ce^(-kt)", "P = Ckt", "Pt = C"], "correct": "P = Ce^(-kt)"},
+        {"exercise": "Exercise 10.9", "book_num": 24, "question": "If the solution of the differential equation dy/dx = (ax+3)/(2y+f) represents a circle, then the value of a is", "options": ["2", "-2", "1", "-1"], "correct": "-2"},
+        {"exercise": "Exercise 10.9", "book_num": 25, "question": "The slope at any point of a curve y = f(x) is given by dy/dx = 3x² and it passes through (-1,1). Then the equation of the curve is", "options": ["y = x³ + 2", "y = 3x² + 4", "y = 3x³ + 4", "y = x³ + 5"], "correct": "y = x³ + 2"},
+
+        // === EXERCISE 11.6: PROBABILITY DISTRIBUTIONS ===
+        {"exercise": "Exercise 11.6", "book_num": 1, "question": "Let X be a random variable with pdf f(x) = 2/x³ for x ≥ 1, and 0 for x < 1. Which statement is correct?", "options": ["both mean and variance exist", "mean exists but variance does not exist", "both mean and variance do not exist", "variance exists but mean does not exist"], "correct": "mean exists but variance does not exist"},
+        {"exercise": "Exercise 11.6", "book_num": 2, "question": "A rod of length 2l is broken into two pieces at random. The pdf of the shorter piece is f(x) = 1/l for 0 < x < l, and 0 for l ≤ x < 2l. The mean and variance of the shorter piece are respectively:", "options": ["l/2, l²/3", "l/2, l²/6", "l/2, l²/12", "l/4, l²/12"], "correct": "l/2, l²/12"},
+        {"exercise": "Exercise 11.6", "book_num": 3, "question": "Consider a game where the player tosses a die. If 6 comes up, the player wins 36, otherwise he loses 7k², where k is the face that comes up k={1,2,3,4,5}. Expected win amount is", "options": ["19/6", "-19/6", "3/2", "-3/2"], "correct": "-19/6"},
+        {"exercise": "Exercise 11.6", "book_num": 4, "question": "A pair of dice numbered 1,2,3,4,5,6 and 1,2,3,4 is rolled and the sum determined. Let X denote this sum. The number of elements in the inverse image of 7 is", "options": ["1", "2", "3", "4"], "correct": "4"},
+        {"exercise": "Exercise 11.6", "book_num": 5, "question": "A random variable X has binomial distribution with n=25 and p=0.8 then standard deviation of X is", "options": ["6", "4", "3", "2"], "correct": "2"},
+        {"exercise": "Exercise 11.6", "book_num": 6, "question": "Let X represent the difference between the number of heads and tails obtained when a coin is tossed n times. Then possible values of X are:", "options": ["i + 2n, i=0,1..n", "2i - n, i=0,1..n", "n - i, i=0,1..n", "2i + 2n, i=0,1..n"], "correct": "2i - n, i=0,1..n"},
+        {"exercise": "Exercise 11.6", "book_num": 7, "question": "If the function f(x) = 1/12 for a < x < b represents a pdf of a continuous random variable X, then which of the following cannot be the value of a and b?", "options": ["0 and 12", "5 and 17", "7 and 19", "16 and 24"], "correct": "16 and 24"},
+        {"exercise": "Exercise 11.6", "book_num": 8, "question": "Four buses carrying 160 students arrive at stadium holding 42, 36, 34, 48 students. Let X denote students on bus of a random student. Let Y denote students on bus of a random driver. E(X) and E(Y) are:", "options": ["50, 40", "40, 50", "40.75, 40", "41, 41"], "correct": "40.75, 40"},
+        {"exercise": "Exercise 11.6", "book_num": 9, "question": "Two coins are flipped. First coin lands heads with prob 0.6, second with 0.5. Flips are independent. Let X equal total heads. E(X) is", "options": ["0.11", "1.1", "11", "1"], "correct": "1.1"},
+        {"exercise": "Exercise 11.6", "book_num": 10, "question": "On a multiple choice exam with 3 possible distractors (4 options total per question) for each of 5 questions, the probability that a student gets 4 or more correct answers by guessing is", "options": ["11/243", "3/8", "1/243", "21/1024"], "correct": "21/1024"}, 
+        {"exercise": "Exercise 11.6", "book_num": 11, "question": "If P(X=0) = 1 - P(X=1) and E(X) = 3Var(X), then P(X=0) is", "options": ["2/3", "2/5", "1/5", "1/3"], "correct": "2/3"},
+        {"exercise": "Exercise 11.6", "book_num": 12, "question": "If X is a binomial random variable with expected value 6 and variance 2.4, then P(X=5) is", "options": ["nCr(10,5)(3/5)^6(2/5)^4", "nCr(10,5)(3/5)^10", "nCr(10,5)(3/5)^4(2/5)^6", "nCr(10,5)(3/5)^5(2/5)^5"], "correct": "nCr(10,5)(3/5)^6(2/5)^4"}, 
+        {"exercise": "Exercise 11.6", "book_num": 13, "question": "The random variable X has pdf f(x) = ax + b for 0 < x < 1, and 0 otherwise. If E(X) = 7/12, then a and b are respectively:", "options": ["1 and 1/2", "1/2 and 1", "2 and 1", "1 and 2"], "correct": "1 and 1/2"},
+        {"exercise": "Exercise 11.6", "book_num": 14, "question": "Suppose X takes values 0, 1, 2. If P(X=i) = k P(X=i-1) for i=1,2 and P(X=0) = 1/7, then the value of k is", "options": ["1", "2", "3", "4"], "correct": "2"},
+        {"exercise": "Exercise 11.6", "book_num": 15, "question": "Which of the following is a discrete random variable?\nI. Number of cars crossing a signal in a day.\nII. Number of customers in a queue at a moment.\nIII. Time taken to complete a phone call.", "options": ["I and II", "II only", "III only", "II and III"], "correct": "I and II"},
+        {"exercise": "Exercise 11.6", "book_num": 16, "question": "If f(x) = 2x for 0 <= x <= a, and 0 otherwise, represents a pdf, then the value of a is", "options": ["1", "2", "3", "4"], "correct": "1"},
+        {"exercise": "Exercise 11.6", "book_num": 17, "question": "The pmf of X is defined as x=[-2, -1, 0, 1, 2] with f(x)=[k, 2k, 3k, 4k, 5k]. Then E(X) is equal to:", "options": ["1/15", "1/10", "1/3", "2/3"], "correct": "2/3"},
+        {"exercise": "Exercise 11.6", "book_num": 18, "question": "Let X have a Bernoulli distribution with mean 0.4, then the variance of (2X-3) is", "options": ["0.24", "0.48", "0.6", "0.96"], "correct": "0.96"},
+        {"exercise": "Exercise 11.6", "book_num": 19, "question": "If in 6 trials, X is a binomial variable which follows the relation 9P(X=4) = P(X=2), then the probability of success is", "options": ["0.125", "0.25", "0.375", "0.75"], "correct": "0.25"},
+        {"exercise": "Exercise 11.6", "book_num": 20, "question": "A salesperson knows he sells computers to one in every twenty customers. What is the probability that he will sell a computer to exactly two of the next three customers?", "options": ["57/20^3", "57/20^2", "19^3/20^3", "57/20"], "correct": "57/20^3"},
+
+        // === EXERCISE 12.3: DISCRETE MATHEMATICS ===
+        {"exercise": "Exercise 12.3", "book_num": 1, "question": "A binary operation on a set S is a function from", "options": ["S -> S", "(S x S) -> S", "S -> (S x S)", "(S x S) -> (S x S)"], "correct": "(S x S) -> S"},
+        {"exercise": "Exercise 12.3", "book_num": 2, "question": "Subtraction is not a binary operation in", "options": ["R", "Z", "N", "Q"], "correct": "N"},
+        {"exercise": "Exercise 12.3", "book_num": 3, "question": "Which one of the following is a binary operation on N?", "options": ["Subtraction", "Multiplication", "Division", "All the above"], "correct": "Multiplication"},
+        {"exercise": "Exercise 12.3", "book_num": 4, "question": "In the set R, '*' is defined as follows. Which one of the following is not a binary operation on R?", "options": ["a * b = min(a, b)", "a * b = max(a, b)", "a * b = a", "a * b = a^b"], "correct": "a * b = a^b"},
+        {"exercise": "Exercise 12.3", "book_num": 5, "question": "The operation * defined by a * b = ab / 7 is not a binary operation on", "options": ["Q^+", "Z", "R", "C"], "correct": "Z"},
+        {"exercise": "Exercise 12.3", "book_num": 6, "question": "In the set Q, define a O b = a + b + ab. For what value of y, 3 O (y O 5) = 7?", "options": ["y = 2/3", "y = -2/3", "y = -3/2", "y = 4"], "correct": "y = -2/3"},
+        {"exercise": "Exercise 12.3", "book_num": 7, "question": "If a * b = √(a² + b²) on the real numbers then * is", "options": ["commutative but not associative", "associative but not commutative", "both commutative and associative", "neither commutative nor associative"], "correct": "both commutative and associative"},
+        {"exercise": "Exercise 12.3", "book_num": 8, "question": "Which one of the following statements has the truth value T?", "options": ["sin x is an even function.", "Every square matrix is non-singular", "The product of complex number and its conjugate is purely imaginary", "√5 is an irrational number"], "correct": "√5 is an irrational number"},
+        {"exercise": "Exercise 12.3", "book_num": 9, "question": "Which one of the following statements has truth value F?", "options": ["Chennai is in India or √2 is an integer", "Chennai is in India or √2 is an irrational number", "Chennai is in China or √2 is an integer", "Chennai is in China or √2 is an irrational number"], "correct": "Chennai is in China or √2 is an integer"},
+        {"exercise": "Exercise 12.3", "book_num": 10, "question": "If a compound statement involves 3 simple statements, then the number of rows in the truth table is", "options": ["9", "8", "6", "3"], "correct": "8"},
+        {"exercise": "Exercise 12.3", "book_num": 11, "question": "Which one is the inverse of the statement (p ∨ q) → (p ∧ q)?", "options": ["(p ∧ q) → (p ∨ q)", "∼(p ∨ q) → ∼(p ∧ q)", "(∼p ∨ ∼q) → (∼p ∧ ∼q)", "(∼p ∧ ∼q) → (∼p ∨ ∼q)"], "correct": "(~p ^ ~q) -> (~p v ~q)"}, 
+        {"exercise": "Exercise 12.3", "book_num": 12, "question": "Which one is the contrapositive of the statement (p ∨ q) → r?", "options": ["∼r → (∼p ∧ ∼q)", "∼r → (p ∨ q)", "r → (p ∧ q)", "p → (q ∨ r)"], "correct": "~r -> (~p ^ ~q)"},
+        {"exercise": "Exercise 12.3", "book_num": 13, "question": "The true outcomes in the final column of the truth table for (p ∧ q) ∨ ∼q for inputs [TT, TF, FT, FF] are respectively:", "options": ["T, T, T, T", "T, F, T, T", "T, T, F, T", "T, F, F, F"], "correct": "T, T, F, T"},
+        {"exercise": "Exercise 12.3", "book_num": 14, "question": "In the last column of the truth table for ∼(p ∨ ∼q) the number of final outcomes of the truth value 'F' are", "options": ["1", "2", "3", "4"], "correct": "3"},
+        {"exercise": "Exercise 12.3", "book_num": 15, "question": "Which one of the following is incorrect? For any two propositions p and q, we have", "options": ["∼(p ∨ q) == ∼p ∧ ∼q", "∼(p ∧ q) == ∼p ∨ ∼q", "∼(p ∨ q) == ∼p ∨ ∼q", "∼(∼p) == p"], "correct": "~(p v q) == ~p v ~q"},
+        {"exercise": "Exercise 12.3", "book_num": 16, "question": "The final row values for the statement (p ∧ q) → ∼p across classical truth inputs [TT, TF, FT, FF] are:", "options": ["T, T, T, T", "F, T, T, T", "F, F, T, T", "T, T, T, F"], "correct": "F, T, T, T"},
+        {"exercise": "Exercise 12.3", "book_num": 17, "question": "The dual of ∼(p ∨ q) ∨ [p ∨ (p ∧ ∼r)] is", "options": ["∼(p ∧ q) ∧ [p ∨ (p ∧ ∼r)]", "(p ∧ q) ∧ [p ∧ (p ∨ ∼r)]", "∼(p ∧ q) ∧ [p ∧ (p ∧ r)]", "∼(p ∧ q) ∧ [p ∧ (p ∨ ∼r)]"], "correct": "~(p ^ q) ^ [p ^ (p v ~r)]"},
+        {"exercise": "Exercise 12.3", "book_num": 18, "question": "The proposition p ∧ (∼p ∨ q) is", "options": ["a tautology", "a contradiction", "logically equivalent to p ∧ q", "logically equivalent to p ∨ q"], "correct": "logically equivalent to p ^ q"},
+        {"exercise": "Exercise 12.3", "book_num": 19, "question": "Determine the truth values of: (a) 4+2=5 and 6+3=9, (b) 3+2=5 and 6+1=7, (c) 4+5=9 and 1+2=4, (d) 3+2=5 and 4+7=11", "options": ["F, T, F, T", "T, F, T, F", "T, T, F, F", "F, F, T, T"], "correct": "F, T, F, T"},
+        {"exercise": "Exercise 12.3", "book_num": 20, "question": "Which one of the following is not true?", "options": ["Negation of a negation of a statement is the statement itself.", "If the last column of the truth table contains only T then it is a tautology.", "If the last column of its truth table contains only F then it is a contradiction", "If p and q are any two statements then p ↔ q is a tautology."], "correct": "If p and q are any two statements then p <-> q is a tautology."}
+    ];
+
+    // =========================================================================
+    // STATE REGISTER ENGINE WIRING
+    // =========================================================================
+    let currentTheme = "Light";
+    let currentUser = null;
+    let studentBatch = "General";
+    
+    // Runtime Active Evaluation Registers
+    let sessionQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let userAnswers = {}; // Map mapping index -> chosen string option
+    let bookmarks = []; // Caches current bookmarked instances
+    let isExamMode = false;
+    let activeSessionScope = "";
+    
+    // Timer Handles
+    let timeRemaining = 0;
+    let timerInterval = null;
+    let reportBufferData = "";
+
+    // Local Storage Mock Persistence System Layer
+    function getDb() {
+        let db = localStorage.getItem("infinity_student_db");
+        if (!db) {
+            let defaultDb = { users: { "admin": "infinity123" }, history: {}, bookmarks: {} };
+            localStorage.setItem("infinity_student_db", JSON.stringify(defaultDb));
+            return defaultDb;
+        }
+        return JSON.parse(db);
+    }
+
+    function saveDb(db) {
+        localStorage.setItem("infinity_student_db", JSON.stringify(db));
+    }
+
+    // UTILS: Shuffle arrays helper
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // =========================================================================
+    // UI SCREEN CONTROLLER MANAGEMENT WIRING
+    // =========================================================================
+    function switchTheme() {
+        currentTheme = (currentTheme === "Light") ? "Dark" : "Light";
+        document.documentElement.setAttribute("data-theme", currentTheme);
+        document.getElementById("theme-toggle-btn").innerText = "Theme: " + currentTheme;
+    }
+
+    function showLoginScreen() {
+        currentUser = null;
+        clearInterval(timerInterval);
+        document.getElementById("left-sidebar").classList.add("hidden-view");
+        hideAllViews();
+        document.getElementById("view-login").classList.remove("hidden-view");
+        document.getElementById("header-title").innerText = "INFINITY TUITIONS : 2026-2027";
+    }
+
+    function hideAllViews() {
+        document.getElementById("view-login").classList.add("hidden-view");
+        document.getElementById("view-dashboard").classList.add("hidden-view");
+        document.getElementById("view-quiz").classList.add("hidden-view");
+        document.getElementById("view-report").classList.add("hidden-view");
+    }
+
+    function runAuthSequence() {
+        let u = document.getElementById("input-username").value.trim();
+        let b = document.getElementById("input-batch").value.trim();
+        
+        if (!u || !b) {
+            alert("Fields must be fully populated.");
+            return;
+        }
+        
+        currentUser = u;
+        studentBatch = b;
+        
+        let db = getDb();
+        if (!db.bookmarks[currentUser]) db.bookmarks[currentUser] = [];
+        if (!db.history[currentUser]) db.history[currentUser] = [];
+        saveDb(db);
+        
+        document.getElementById("left-sidebar").classList.remove("hidden-view");
+        showHomeDashboard();
+    }
+
+    function showHomeDashboard() {
+        hideAllViews();
+        document.getElementById("view-dashboard").classList.remove("hidden-view");
+        document.getElementById("header-title").innerText = "2. DASHBOARD / EXERCISE SELECTION";
+        
+        // Render Profiles Data Cards
+        document.getElementById("welcome-text").innerText = "Welcome back, " + currentUser;
+        
+        let db = getDb();
+        let history = db.history[currentUser] || [];
+        let totalRuns = history.length;
+        let avgScore = 0;
+        if (totalRuns > 0) {
+            let sum = history.reduce((acc, curr) => acc + (curr.percentage || 0), 0);
+            avgScore = Math.round(sum / totalRuns);
+        }
+        document.getElementById("profile-subtext").innerText = `Batch Allocation: ${studentBatch} | Accuracy Rating: ${avgScore}% (${totalRuns} Run Sessions)`;
+        
+        renderLogsTableAndChart(history);
+    }
+
+    function renderLogsTableAndChart(history) {
+        let tbody = document.querySelector("#logs-table tbody");
+        tbody.innerHTML = "";
+        
+        let totalCorrect = 0;
+        let totalWrong = 0;
+        let totalSkipped = 0;
+        
+        history.forEach(entry => {
+            let row = document.createElement("tr");
+            row.innerHTML = `<td>${entry.date || 'N/A'}</td><td>${entry.scope || 'All'}</td><td>${entry.percentage || 0}%</td>`;
+            tbody.appendChild(row);
+            
+            totalCorrect += (entry.correct || 0);
+            totalWrong += (entry.wrong || 0);
+            totalSkipped += (entry.skipped || 0);
+        });
+
+        // Draw Custom Vector Macro Geometry Distribution SVG Graphic Diagram 
+        let totalPoints = totalCorrect + totalWrong + totalSkipped;
+        let svg = document.getElementById("pie-chart-svg");
+        svg.innerHTML = "";
+        
+        if (totalPoints === 0) {
+            svg.innerHTML = `<circle cx="16" cy="16" r="16" fill="var(--border)" />`;
+            document.getElementById("chart-leg-correct").innerText = "0";
+            document.getElementById("chart-leg-wrong").innerText = "0";
+            document.getElementById("chart-leg-skipped").innerText = "0";
+            return;
+        }
+
+        document.getElementById("chart-leg-correct").innerText = totalCorrect;
+        document.getElementById("chart-leg-wrong").innerText = totalWrong;
+        document.getElementById("chart-leg-skipped").innerText = totalSkipped;
+
+        let pctCorrect = totalCorrect / totalPoints;
+        let pctWrong = totalWrong / totalPoints;
+        let pctSkipped = totalSkipped / totalPoints;
+
+        let currentOffset = 0;
+        
+        function makeSegment(pct, color) {
+            if (pct === 0) return "";
+            let strokeDash = (pct * 100) + " " + (100 - (pct * 100));
+            let dashArrayOffset = -currentOffset;
+            currentOffset += (pct * 100);
+            return `<circle cx="16" cy="16" r="15.915" fill="transparent" stroke="${color}" stroke-width="32" stroke-dasharray="${strokeDash}" stroke-dashoffset="${dashArrayOffset}" />`;
+        }
+
+        let svgHtml = "";
+        svgHtml += makeSegment(pctCorrect, "var(--success)");
+        svgHtml += makeSegment(pctWrong, "var(--danger)");
+        svgHtml += makeSegment(pctSkipped, "var(--text-muted)");
+        svg.innerHTML = svgHtml;
+    }
+
+    function confirmExitToDashboard() {
+        if (timerInterval && timeRemaining > 0) {
+            if (!confirm("An active exam session is running. Progress data will be cached. Exit?")) {
+                return;
+            }
+        }
+        clearInterval(timerInterval);
+        showHomeDashboard();
+    }
+
+    // =========================================================================
+    // INITIALIZE TEST VECTORS PIPELINES ENGINE
+    // =========================================================================
+    function initializeTestVectors() {
+        let filterScope = document.querySelector('input[name="module-select"]:checked').value;
+        let modeKey = document.querySelector('input[name="engine-mode"]:checked').value;
+        
+        let sourcePool = [];
+        if (filterScope === "ALL") {
+            sourcePool = [...ALL_QUESTIONS];
+        } else {
+            sourcePool = ALL_QUESTIONS.filter(q => q.exercise === filterScope);
+        }
+
+        if (sourcePool.length === 0) {
+            alert("Requested criteria targets an empty registry vector.");
+            return;
+        }
+
+        // Deep copy and dynamic parameter array mappings
+        sessionQuestions = sourcePool.map((q, idx) => {
+            let optsShuffled = [...q.options];
+            shuffle(optsShuffled);
+            return {
+                exercise: q.exercise,
+                book_num: q.book_num,
+                question: q.question,
+                correct: q.correct,
+                shuffled_options: optsShuffled,
+                index_pointer: idx
+            };
+        });
+
+        shuffle(sessionQuestions);
+        
+        currentIndex = 0;
+        score = 0;
+        userAnswers = {};
+        isExamMode = (modeKey === "EXAM");
+        activeSessionScope = filterScope;
+        
+        let db = getDb();
+        bookmarks = db.bookmarks[currentUser] || [];
+
+        hideAllViews();
+        document.getElementById("view-quiz").classList.remove("hidden-view");
+        document.getElementById("header-title").innerText = "Active Evaluation Environment Engine Workspace";
+
+        if (isExamMode) {
+            timeRemaining = sessionQuestions.length * 45;
+            startHeartbeatTimer();
+        } else {
+            document.getElementById("quiz-lbl-timer").innerText = "Practice Deck Mode";
+        }
+
+        loadQuestionNode();
+    }
+
+    // =========================================================================
+    // ACTIVE RUNTIME EXECUTION HANDLERS
+    // =========================================================================
+    function loadQuestionNode() {
+        if (currentIndex >= sessionQuestions.length) {
+            currentIndex = sessionQuestions.length - 1;
+        }
+
+        let q = sessionQuestions[currentIndex];
+        
+        // Meta rendering mappings
+        document.getElementById("quiz-lbl-meta").innerText = `📌 Module Target Block Segment: ${q.exercise} | Book Pointer Item: Q.${q.book_num} | Vector Index: ${currentIndex + 1} / ${sessionQuestions.length}`;
+        document.getElementById("quiz-question-text").innerText = q.question;
+        
+        // Core structural bar rendering updates
+        let percentageProg = ((currentIndex + 1) / sessionQuestions.length) * 100;
+        document.getElementById("quiz-progress-fill").style.width = percentageProg + "%";
+
+        // Handle bookmarks layouts configurations
+        let isBookmarked = bookmarks.some(b => b.question === q.question);
+        let btnBmk = document.getElementById("btn-bookmark");
+        if (isBookmarked) {
+            btnBmk.innerText = "🔖 Bookmarked";
+            btnBmk.style.backgroundColor = "var(--success)";
+        } else {
+            btnBmk.innerText = "🔖 Bookmark Vector";
+            btnBmk.style.backgroundColor = "var(--primary)";
+        }
+
+        // Render multiple choice options framework layout
+        let optGroup = document.getElementById("quiz-options-group");
+        optGroup.innerHTML = "";
+
+        let ansCommitted = userAnswers[currentIndex];
+        
+        q.shuffled_options.forEach(opt => {
+            let btn = document.createElement("button");
+            btn.className = "mcq-option-button";
+            btn.innerText = opt;
+            
+            if (ansCommitted) {
+                btn.disabled = true;
+                if (isExamMode) {
+                    if (opt === ansCommitted) btn.classList.add("selected-locked");
+                } else {
+                    if (opt === q.correct) btn.classList.add("eval-correct");
+                    else if (opt === ansCommitted) btn.classList.add("eval-wrong");
+                }
+            } else {
+                btn.onclick = function() {
+                    // Deselect previously clicked alternatives items inside active dynamic subtrees nodes
+                    let activeSiblings = optGroup.querySelectorAll(".mcq-option-button");
+                    activeSiblings.forEach(s => s.classList.remove("selected-locked"));
+                    btn.classList.add("selected-locked");
+                    btn.setAttribute("data-selected-val", opt);
+                };
+            }
+            optGroup.appendChild(btn);
+        });
+
+        // Config buttons toggles attributes values
+        let btnCommit = document.getElementById("btn-commit");
+        if (ansCommitted) {
+            btnCommit.innerText = "Locked Profile Mapping";
+            btnCommit.disabled = true;
+            btnCommit.style.backgroundColor = "var(--text-muted)";
+        } else {
+            btnCommit.innerText = "Submit Answer ✔";
+            btnCommit.disabled = false;
+            btnCommit.style.backgroundColor = "var(--success)";
+        }
+
+        document.getElementById("btn-prev").disabled = (currentIndex === 0);
+        
+        renderNavigationMatrixGrid();
+    }
+
+    function renderNavigationMatrixGrid() {
+        let grid = document.getElementById("navigation-matrix-grid");
+        grid.innerHTML = "";
+
+        sessionQuestions.forEach((q, i) => {
+            let btn = document.createElement("button");
+            btn.className = "matrix-node-btn";
+            btn.innerText = i + 1;
+            
+            if (i === currentIndex) {
+                btn.classList.add("active-node");
+            } else if (userAnswers[i] !== undefined) {
+                if (isExamMode) {
+                    btn.classList.add("node-answered-exam");
+                } else {
+                    if (userAnswers[i] === sessionQuestions[i].correct) {
+                        btn.classList.add("node-correct");
+                    } else {
+                        btn.classList.add("node-wrong");
+                    }
+                }
+            }
+            
+            btn.onclick = () => jumpToNodeIndex(i);
+            grid.appendChild(btn);
+        });
+    }
+
+    function commitSelectedAnswer() {
+        let selectedBtn = document.querySelector("#quiz-options-group .mcq-option-button.selected-locked");
+        if (!selectedBtn) {
+            alert("Selection matrix track remains unallocated.");
+            return;
+        }
+
+        let chosenVal = selectedBtn.getAttribute("data-selected-val");
+        userAnswers[currentIndex] = chosenVal;
+        
+        let q = sessionQuestions[currentIndex];
+        if (!isExamMode && chosenVal === q.correct) {
+            score++;
+        }
+
+        loadQuestionNode();
+        
+        setTimeout(() => {
+            goNextNode();
+        }, 300);
+    }
+
+    function goNextNode() {
+        if (currentIndex < sessionQuestions.length - 1) {
+            currentIndex++;
+            loadQuestionNode();
+        } else if (Object.keys(userAnswers).length === sessionQuestions.length) {
+            triggerFinalEvaluationSequence();
+        }
+    }
+
+    function goPreviousNode() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadQuestionNode();
+        }
+    }
+
+    function skipCurrentNode() {
+        goNextNode();
+    }
+
+    function jumpToNodeIndex(idx) {
+        currentIndex = idx;
+        loadQuestionNode();
+    }
+
+    function toggleBookmarkState() {
+        let q = sessionQuestions[currentIndex];
+        let idx = bookmarks.findIndex(b => b.question === q.question);
+        
+        if (idx > -1) {
+            bookmarks.splice(idx, 1);
+        } else {
+            bookmarks.push({
+                exercise: q.exercise,
+                book_num: q.book_num,
+                question: q.question,
+                correct: q.correct
+            });
+        }
+
+        let db = getDb();
+        db.bookmarks[currentUser] = bookmarks;
+        saveDb(db);
+        loadQuestionNode();
+    }
+
+    // =========================================================================
+    // TIMER ENGINE SEGMENTS CORRIDOR
+    // =========================================================================
+    function startHeartbeatTimer() {
+        clearInterval(timerInterval);
+        
+        function tick() {
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                alert("Allocated timeframe expired. Compiling calculations matrix data.");
+                triggerFinalEvaluationSequence();
+                return;
+            }
+            let mins = Math.floor(timeRemaining / 60);
+            let secs = timeRemaining % 60;
+            document.getElementById("quiz-lbl-timer").innerText = `⏱ Countdown Matrix: ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            timeRemaining--;
+        }
+        
+        tick();
+        timerInterval = setInterval(tick, 1000);
+    }
+
+    function manualAbortSequence() {
+        if (confirm("Compile partial tracking metrics and complete session?")) {
+            triggerFinalEvaluationSequence();
+        }
+    }
+
+    // =========================================================================
+    // POST TEST PERFORMANCE LEDGER ENGINE SEGMENT PIPELINES
+    // =========================================================================
+    function triggerFinalEvaluationSequence() {
+        clearInterval(timerInterval);
+        
+        if (isExamMode) {
+            score = 0;
+            sessionQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) score++;
+            });
+        }
+
+        let total = sessionQuestions.length;
+        let answeredCount = Object.keys(userAnswers).length;
+        let skipped = total - answeredCount;
+        let wrong = total - score - skipped;
+        let pct = total > 0 ? Math.round((score / total) * 100) : 0;
+        
+        let now = new Date();
+        let timestampStr = now.getFullYear() + "-" + String(now.getMonth()+1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0') + " " + String(now.getHours()).padStart(2, '0') + ":" + String(now.getMinutes()).padStart(2, '0');
+
+        let logEntry = {
+            date: timestampStr,
+            scope: activeSessionScope,
+            total: total,
+            correct: score,
+            wrong: wrong,
+            skipped: skipped,
+            percentage: pct
+        };
+
+        let db = getDb();
+        db.history[currentUser].push(logEntry);
+        saveDb(db);
+
+        displayReviewScreen(logEntry);
+    }
+
+    function displayReviewScreen(summary) {
+        hideAllViews();
+        document.getElementById("view-report").classList.remove("hidden-view");
+        document.getElementById("header-title").innerText = "Performance Diagnostic Diagnostics Matrix Overview";
+
+        document.getElementById("report-efficiency-status").innerText = `Metric Matrix Efficiency Status: ${summary.percentage}% Accuracy Calculated`;
+        
+        let dividerLine = "=".repeat(90) + "\n";
+        let subDivider = "-".repeat(90) + "\n";
+
+        let buf = dividerLine;
+        buf += ` MASTER DIAGNOSTIC REPORT LEDGER | RUN TIMELINE: ${summary.date}\n`;
+        buf += ` Evaluation Scope Targets Matrix Segment Target: ${summary.scope}\n`;
+        buf += ` Core Calculated Parameter Metrics: Correct: ${summary.correct} | Wrong: ${summary.wrong} | Skipped: ${summary.skipped} [Total Pool: ${summary.total}]\n`;
+        buf += dividerLine + "\n";
+
+        sessionQuestions.forEach((q, idx) => {
+            let ans = userAnswers[idx];
+            let statusFlag = "SKIPPED";
+            if (ans !== undefined) {
+                statusFlag = (ans === q.correct) ? "CORRECT" : "WRONG";
+            } else {
+                ans = "[Skipped Matrix Register Value]";
+            }
+
+            buf += ` Item Block Link Segment Pointer Entry ${idx + 1}: ${q.exercise} - Question Ref Key: Q.No ${q.book_num}\n`;
+            buf += ` String Core Text: ${q.question}\n`;
+            buf += ` Verified Answer Ledger Index Tracking Key: ${q.correct}\n`;
+            buf += ` Candidate Selection Output Record Matrix: ${ans} -> Entry Status Flag Marker Result: [${statusFlag}]\n`;
+            buf += subDivider;
+        });
+
+        reportBufferData = buf;
+        document.getElementById("report-text-area").innerText = buf;
+    }
+
+    function exitToDashboardHome() {
+        showHomeDashboard();
+    }
+
+    function exportToTextReport() {
+        let blob = new Blob([reportBufferData], { type: "text/plain;charset=utf-8" });
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `Performance_Audit_Report_${currentUser}.txt`;
+        link.click();
+    }
+
+    // Initialize application layout state triggers default tracking frameworks
+    window.onload = function() {
+        showLoginScreen();
+    };
+</script>
+</body>
+</html>
